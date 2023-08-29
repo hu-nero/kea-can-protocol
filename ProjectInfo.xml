@@ -46,6 +46,7 @@
       <Path>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\</Path>
     </IncludePaths>
     <SourceCodePaths>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Board\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Adc\</Path>
@@ -57,6 +58,7 @@
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Pit\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Spi\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\SysTick\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Timer\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Project_Settings\Startup_Code\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\INA226\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\</Path>
@@ -70,10 +72,12 @@
   </PATHS>
   <FILES>
     <GeneratedCs>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\task_init.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CAN.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Cpu.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\PE_LDD.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Pins1.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\TaskTimer.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\GPIO.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\SS1.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Adc\hal_adc.c</PathName>
@@ -85,6 +89,7 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Pit\hal_pit.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Spi\hal_spi.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\SysTick\hal_systick.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Timer\hal_timer.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Project_Settings\Startup_Code\startup.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\INA226\INA226.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\bcc.c</PathName>
@@ -102,6 +107,7 @@
     </GeneratedCs>
     <GeneratedHs>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\board_pin_config.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\task_init.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CAN.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CPU_Config.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Cpu.h</PathName>
@@ -114,6 +120,7 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Pins1.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\SysTick.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\SysTick_Config.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\TaskTimer.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Vectors_Config.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\GPIO.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\PE_Fix_Types.h</PathName>
@@ -128,6 +135,7 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Pit\hal_pit.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Spi\hal_spi.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\SysTick\hal_systick.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Timer\hal_timer.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\Dev.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\INA226\INA226.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\MC33771C.h</PathName>

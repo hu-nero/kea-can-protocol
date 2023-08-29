@@ -58,6 +58,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Crc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/Devices&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Pit&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Task&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input.215695353" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.input"/>
 							</tool>
@@ -83,6 +84,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Crc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/Devices&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Pit&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Task&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.276656997" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
@@ -95,6 +97,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Generated_Code&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Static_Code/Peripherals&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Task&quot;"/>
 								</option>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.1642652191" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>

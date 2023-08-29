@@ -32,6 +32,7 @@
 #include "Events.h"
 #include "Pins1.h"
 #include "CAN.h"
+#include "TaskTimer.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"
@@ -40,10 +41,8 @@
 #include "Init_Config.h"
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
-#include "board_pin_config.h"
-#include "Hal.h"
-#include "Dev.h"
-#include <string.h>
+#include "board_init.h"
+#include "task_init.h"
 
 
 
@@ -54,20 +53,21 @@ int main(void)
   /* Write your local variable definition here */
   /*** Processor Expert internal initialization. DON'T REMOVE THIS CODE!!! ***/
   PE_low_level_init();
-  //systick init
-  hal_systick_init();
-  //gpio init
-  hal_gpio_init();
-  //LED Init
-  hal_gpio_set_pin_dir(MCU_LED_G_PORT, MCU_LED_G_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-
-
   /*** End of Processor Expert internal initialization.                    ***/
+
+
+  /*** Processor Expert board initialization. DON'T REMOVE THIS CODE!!!    ***/
+  board_init();
+  /*** End of Processor Expert board initialization.                       ***/
+
+  /*** Processor Expert task initialization. DON'T REMOVE THIS CODE!!!     ***/
+  task_init();
+  /*** End of Processor Expert task initialization.                        ***/
 
   for(;;)
   {
-      hal_gpio_toggle_pin(MCU_LED_G_PORT, MCU_LED_G_PIN);
-      hal_systick_delay_ms(500);
+	  task_run();
+//      hal_systick_delay_ms(500);
   }
   /*** Don't write any code pass this line, or it will be deleted during code generation. ***/
   /*** RTOS startup code. Macro PEX_RTOS_START is defined by the RTOS component. DON'T MODIFY THIS CODE!!! ***/

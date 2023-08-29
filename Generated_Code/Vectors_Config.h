@@ -51,6 +51,7 @@
 #include "Cpu.h"
 #include "Pins1.h"
 #include "CAN.h"
+#include "TaskTimer.h"
 #include "Events.h"
 
 #ifdef __cplusplus
@@ -93,7 +94,7 @@ extern "C" {
 #define VECTOR_30         (tIsrFunc)&UnhandledInterrupt         /* 0x1E -    ivINT_UART2                   unused by PE */
 #define VECTOR_31         (tIsrFunc)&UnhandledInterrupt         /* 0x1F -    ivINT_ADC0                    unused by PE */
 #define VECTOR_32         (tIsrFunc)&UnhandledInterrupt         /* 0x20 -    ivINT_ACMP0                   unused by PE */
-#define VECTOR_33         (tIsrFunc)&UnhandledInterrupt         /* 0x21 -    ivINT_FTM0                    unused by PE */
+#define VECTOR_33         (tIsrFunc)&TaskTimer_Interrupt        /* 0x21 64   ivINT_FTM0                    used by PE */
 #define VECTOR_34         (tIsrFunc)&UnhandledInterrupt         /* 0x22 -    ivINT_FTM1                    unused by PE */
 #define VECTOR_35         (tIsrFunc)&UnhandledInterrupt         /* 0x23 -    ivINT_FTM2                    unused by PE */
 #define VECTOR_36         (tIsrFunc)&UnhandledInterrupt         /* 0x24 -    ivINT_RTC                     unused by PE */

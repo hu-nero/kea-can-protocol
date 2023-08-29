@@ -64,7 +64,7 @@ hal_can_transmit(uint32_t u32CanId, HAL_CAN_TFrameType hType, uint8_t u8Dlc, con
         while((u16TimeOut < 10) && (0 != CAN_GetTxFrameState(halCanDevicePtr, 1)))
         {
             //×î³¤µÈ´ý10ms
-            hal_systick_delay_ms(1);
+//            hal_systick_delay_ms(1);
             u16TimeOut++;
         }
         return 0;
