@@ -14,6 +14,17 @@
 #define CAN_DRIVER_TX_NUM        (50u)
 #define CAN_DRIVER_RX_NUM        (50u)
 
+/*
+ * * Extended length CAN IDs are 29 bits long and thus are stored as 32 bit
+ *  * unsigned ints.  That leaves 3 bits left over to do whatever with.  This
+ *  * CAN driver uses the MSB of the CAN ID to distinguish between standard and
+ *  * extended IDs - the bit
+ */
+#define CAN_DRIVER_EID_FLAG     (0x80000000UL)
+// The are standard and extended-length CAN ID masks.
+#define CAN_DRIVER_STD_M    (0x7ffUL)
+#define CAN_DRIVER_EXT_M    (0x1fffffffUL)
+
 
 typedef enum {                         /*!< Type specifying the CAN frame type */
   HAL_CAN_DATA_FRAME,                  /*!< Data frame type received or transmitted */

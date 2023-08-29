@@ -3,7 +3,7 @@
   <Header>
     <Name>HC03_Project</Name>
     <SavedBy>xinlei.hu</SavedBy>
-    <ModificationStamp>98</ModificationStamp>
+    <ModificationStamp>99</ModificationStamp>
     <Date>2023-01-30</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1550-0615</PEversion>
@@ -9531,7 +9531,7 @@
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
         <PropertyModelIsAutomatic>false</PropertyModelIsAutomatic>
-        <Value>high priority</Value>
+        <Value>maximal priority</Value>
       </ItemState>
       <ItemState>
         <ItemSymbol>DSPgrp2</ItemSymbol>
