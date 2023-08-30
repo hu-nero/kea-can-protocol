@@ -5,8 +5,8 @@
  *      Author: xinlei.hu
  */
 
-#ifndef LED_TASK_LED_H_
-#define LED_TASK_LED_H_
+#ifndef TASK_LED_TASK_LED_H_
+#define TASK_LED_TASK_LED_H_
 #include <stdint.h>
 
 #define MCU_LED_G_PORT                             HAL_GPIOA_PTC

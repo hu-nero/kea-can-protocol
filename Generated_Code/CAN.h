@@ -7,7 +7,7 @@
 **     Version     : Component 01.112, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-08-29, 11:51, # CodeGen: 7
+**     Date/Time   : 2023-08-30, 11:06, # CodeGen: 10
 **     Abstract    :
 **         This component "CAN_LDD" implements a CAN serial channel.
 **     Settings    :
@@ -62,10 +62,10 @@
 **            Wake up                                      : Disabled
 **          Timing                                         : 
 **            CAN timing calculator                        : click to run ->
-**            Time segment 1                               : 5
+**            Time segment 1                               : 7
 **            Time segment 2                               : 2
 **            Resync jump width                            : 1
-**            Time quanta per bit                          : 8
+**            Time quanta per bit                          : 10
 **            Samples per bit                              : One sample
 **            Bit rate                                     : 500 kbit/s
 **          Initialization                                 : 

@@ -4,8 +4,9 @@
  *  Created on: 2023Äê8ÔÂ28ÈÕ
  *      Author: xinlei.hu
  */
-#include "task_init.h"
+#include "task.h"
 #include "Led/task_led.h"
+#include "Can_Protocol/task_can_protocol.h"
 #include "Timer/hal_timer.h"
 #include "PE_Types.h"
 
@@ -23,8 +24,10 @@ task_init(void)
     hal_timer0_callback_set(task_timer_callback);
     //task init
     led_task_init();
+    can_protocol_task_init();
     //task add
     task_add(led_task,50,500);
+    task_add(can_protocol_task,10,500);
 }
 
 void
@@ -43,7 +46,7 @@ task_run(void)
             gTaskCurId = u8TaskId;
             // All tasks are periodic: schedule task to run again
             gTaskMain[u8TaskId].taskTick = gTaskMain[u8TaskId].taskPeriod;
-            gTaskMain[u8TaskId].pTask(); // Run the task
+            (*gTaskMain[u8TaskId].pTask)(); // Run the task
          }
       }
    }

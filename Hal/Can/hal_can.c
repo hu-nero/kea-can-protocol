@@ -9,88 +9,182 @@
 #include "CAN.h"
 #include "hal_systick.h"
 
-uint8_t canRxBuf[CAN_DRIVER_RX_NUM][CAN_DRIVER_MAX_DLC];
-
 static CAN_TDeviceDataPtr halCanDevicePtr = NULL;
-HAL_CAN_Tx_Struct gHalCanTxStruct;
-HAL_CAN_Rx_Struct gHalCanRxStruct;
-uint32_t gHalCanErrorCount;
+static uint8_t canRxBuf[CAN_DRIVER_RX_NUM][CAN_DRIVER_MAX_DLC];
+static HAL_CAN_Rx_Struct gHalCanRxStruct;
+uint32_t gHalCanErrorCount = 0;
+
+//callback func
+TfpCanHalCallbackTx SpCAN_CallbackTx[eCanPort_Count] = {NULL};
 
 uint16_t
-hal_can_init(void)
+hal_can_init(uint8_t PortId)
 {
+    if (PortId >= eCanPort_Count)
+    {
+        return false;
+    }
+    CAN_FIFO_Init(PortId);
+    CAN_FIFO_InitCallbacks(PortId);
+    CAN_InitWrite(PortId);
+
+    switch(PortId)
+    {
+        case eCanPort_0:
+            {
+                //init can device
+                //baud rate = 500kbps,sample points = 75%
+                halCanDevicePtr = CAN_Init(NULL);
+                if(NULL == halCanDevicePtr)
+                    return 1;
+            }
+            break;
+        default:return 2;
+    }
+    gHalCanRxStruct.u8IdxHead = 0;
+    gHalCanRxStruct.u8IdxTail = 0;
+    gHalCanRxStruct.u32CanRxCount = 0;
     //init can TxMsg
     for( uint8_t i=0; i<CAN_DRIVER_RX_NUM; i++)
     {
-        gHalCanRxStruct.halCanRxFrame[i].u8Data = canRxBuf[i];
+        gHalCanRxStruct.lddCanRxTFrame[i].Data = canRxBuf[i];
     }
-    gHalCanTxStruct.u8MsgId = 0;
-    gHalCanRxStruct.u8MsgId = 0;
-    gHalCanTxStruct.u32CanTxCount = 0;
-    gHalCanRxStruct.u32CanRxCount = 0;
-    gHalCanErrorCount = 0;
-    //init can device
-    halCanDevicePtr = CAN_Init(NULL);
-    if(NULL == halCanDevicePtr)
-        return 1;
+
+
     return 0;
 }
 
 uint16_t
-hal_can_deinit(void)
+hal_can_deinit(uint8_t PortId)
 {
-    //deinit can device
-    if(NULL == halCanDevicePtr)
-        return 1;
-    CAN_Deinit(halCanDevicePtr);
-    return 0;
-}
-
-uint16_t
-hal_can_transmit(uint32_t u32CanId, HAL_CAN_TFrameType hType, uint8_t u8Dlc, const uint8_t *u8BufPtr)
-{
-	LDD_CAN_TFrame frame = {0};
-	uint8_t u8CanTxBuf[8];
-    uint16_t u16TimeOut = 0;
-
-    frame.MessageID = u32CanId;
-    frame.FrameType = hType;
-    frame.Length = u8Dlc <= 8 ? u8Dlc : 8;
-    frame.Data = u8CanTxBuf;
-    memcpy(frame.Data, u8BufPtr, frame.Length);
-    if(0 == CAN_SendFrame(halCanDevicePtr, 1, &frame))
+    switch(PortId)
     {
-        /* Wait for the transmission done */
-        while((u16TimeOut < 10) && (0 != CAN_GetTxFrameState(halCanDevicePtr, 1)))
-        {
-            //最长等待10ms
-//            hal_systick_delay_ms(1);
-            u16TimeOut++;
-        }
-        return 0;
+        case eCanPort_0:
+            {
+                //deinit can device
+                if(NULL == halCanDevicePtr)
+                    return 1;
+                CAN_Deinit(halCanDevicePtr);
+            }
+            break;
+        default:return 2;
     }
-    return 1;
+    return 0;
+}
+
+TeErrorEnum
+hal_can_send(TeCanPort port, uint8_t mb, TsCanFrame* frame)
+{
+    uint16_t u16TimeOut = 0;
+	LDD_CAN_TFrame lddCanTFrame = {0};
+
+	if (frame->is_ext_id)
+	{
+	    lddCanTFrame.MessageID = (frame->id) | CAN_DRIVER_EID_FLAG;
+	}
+	else
+	{
+	    lddCanTFrame.MessageID = frame->id;
+	}
+    lddCanTFrame.FrameType = HAL_CAN_DATA_FRAME;
+    if (frame->is_can_fd)
+    {
+        //TODO:KEA series not support
+    }
+    else
+    {
+        lddCanTFrame.Length = frame->dlc <= 8 ? frame->dlc : 8;
+    }
+    lddCanTFrame.Data = frame->data;
+    switch(port)
+    {
+        case eCanPort_0:
+            {
+                if(0 == CAN_SendFrame(halCanDevicePtr, mb, &lddCanTFrame))
+                {
+                    /* Wait for the transmission done */
+                    while((u16TimeOut < 10) && (0 != CAN_GetTxFrameState(halCanDevicePtr, mb)))
+                    {
+                        //最长等待10ms
+                        u16TimeOut++;
+                    }
+                    if(u16TimeOut == 10)
+                        return eErrorTimeout;
+                    return eErrorOk;
+                }
+            }
+            break;
+        default:break;
+    }
+    return eErrorNotOk;
+}
+
+TsCanFrame*
+hal_can_rx_queue_de(void)
+{
+    static TsCanFrame halCanFrameTmp = {};
+
+    EnterCritical();
+    //is empty
+    if (gHalCanRxStruct.u32CanRxCount == 0)
+    {
+        ExitCritical();
+        return NULL;
+    }
+    //copy data
+    memcpy(&halCanFrameTmp.data, gHalCanRxStruct.lddCanRxTFrame[gHalCanRxStruct.u8IdxHead].Data, CAN_DRIVER_MAX_DLC);
+    halCanFrameTmp.dlc = gHalCanRxStruct.lddCanRxTFrame[gHalCanRxStruct.u8IdxHead].Length;
+    halCanFrameTmp.is_ext_id =(gHalCanRxStruct.lddCanRxTFrame[gHalCanRxStruct.u8IdxHead].MessageID & CAN_DRIVER_EID_FLAG)!=0 ? 1 : 0;
+    if (halCanFrameTmp.is_ext_id)
+    {
+        halCanFrameTmp.id = gHalCanRxStruct.lddCanRxTFrame[gHalCanRxStruct.u8IdxHead].MessageID & CAN_DRIVER_EXT_M;
+    }
+    else
+    {
+        halCanFrameTmp.id = gHalCanRxStruct.lddCanRxTFrame[gHalCanRxStruct.u8IdxHead].MessageID & CAN_DRIVER_STD_M;
+    }
+    //dequeue
+    gHalCanRxStruct.u8IdxHead = (gHalCanRxStruct.u8IdxHead + 1)%CAN_DRIVER_RX_NUM;
+    gHalCanRxStruct.u32CanRxCount--;
+    ExitCritical();
+    return &halCanFrameTmp;
 }
 
 void
-hal_can_error_callback(HAL_CAN_ER_TYPE u8CanErrorType)
+hal_can_tx_callback_set(uint8_t PortId, TfpCanHalCallbackTx Func)
 {
-    switch(u8CanErrorType)
+    SpCAN_CallbackTx[PortId] = Func;
+}
+
+void
+hal_can_tx_callback(uint8_t PortId, uint8_t BufferIdx)
+{
+    switch(PortId)
     {
-        case HAL_CAN_ER_ERROR:
+        case eCanPort_0:
             {
-                //获取错误状态，并记录日志或打印
-                uint32_t u32ErrorMask = 0;
-                CAN_GetError(halCanDevicePtr, &u32ErrorMask);
-                gHalCanErrorCount ++;
-                //printf("[CAN] Error state:%x;\r\n",u32ErrorMask);
+                (*SpCAN_CallbackTx[PortId])(PortId, BufferIdx);
             }
             break;
-        case HAL_CAN_ER_BUSOFF:
+        default:break;
+    }
+}
+
+
+void
+hal_can_rx_callback(uint8_t PortId, uint8_t BufferIdx)
+{
+    switch(PortId)
+    {
+        case eCanPort_0:
             {
-                //重启CAN controller
-                hal_can_deinit();
-                hal_can_init();
+                if(gHalCanRxStruct.u32CanRxCount > CAN_DRIVER_RX_NUM-1)
+                {
+                    return;
+                }
+                (void)CAN_ReadFrame(halCanDevicePtr, BufferIdx,(LDD_CAN_TFrame *)&gHalCanRxStruct.lddCanRxTFrame[gHalCanRxStruct.u8IdxTail]);
+                gHalCanRxStruct.u8IdxTail = (gHalCanRxStruct.u8IdxTail + 1)%CAN_DRIVER_RX_NUM;
+                gHalCanRxStruct.u32CanRxCount++;
             }
             break;
         default:break;
@@ -98,27 +192,24 @@ hal_can_error_callback(HAL_CAN_ER_TYPE u8CanErrorType)
 }
 
 void
-hal_can_tx_callback(uint8_t BufferIdx)
+hal_can_error_callback(uint8_t PortId, HAL_CAN_ER_TYPE u8CanErrorType)
 {
-	(void) BufferIdx;
-    gHalCanTxStruct.u32CanTxCount++;
-    //TODO:transmit next msg
-}
-
-void
-hal_can_rx_callback(uint8_t BufferIdx)
-{
-    //Msg is overflow
-    if(gHalCanRxStruct.u8MsgId > CAN_DRIVER_RX_NUM-1)
+    switch(u8CanErrorType)
     {
-        //TODO:alert user
-        //discard Msg
-        return;
+        case HAL_CAN_ER_ERROR:
+            {
+                uint32_t u32ErrorMask = 0;
+                CAN_GetError(halCanDevicePtr, &u32ErrorMask);
+                gHalCanErrorCount ++;
+            }
+            break;
+        case HAL_CAN_ER_BUSOFF:
+            {
+                hal_can_deinit(PortId);
+                hal_can_init(PortId);
+            }
+            break;
+        default:break;
     }
-    (void)CAN_ReadFrame(halCanDevicePtr, BufferIdx,(LDD_CAN_TFrame *)&gHalCanRxStruct.halCanRxFrame[gHalCanRxStruct.u8MsgId]);
-    gHalCanRxStruct.u8MsgId++;
-    gHalCanRxStruct.u32CanRxCount++;
 }
-
-
 

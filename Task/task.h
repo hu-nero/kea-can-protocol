@@ -5,8 +5,8 @@
  *      Author: xinlei.hu
  */
 
-#ifndef BOARD_TASK_INIT_H_
-#define BOARD_TASK_INIT_H_
+#ifndef TASK_TASK_H_
+#define TASK_TASK_H_
 #include <stdint.h>
 
 #define MAX_TASKS_SIZE    10
@@ -25,5 +25,5 @@ extern void task_delete(uint16_t (*PTask)());
 extern void task_change(uint16_t (*PTask)(), const uint32_t Tick, const uint32_t Period);
 
 
-#endif /* BOARD_TASK_INIT_H_ */
+#endif /* TASK_TASK_H_ */
 

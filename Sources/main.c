@@ -42,7 +42,7 @@
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
 #include "board_init.h"
-#include "task_init.h"
+#include "task.h"
 
 
 

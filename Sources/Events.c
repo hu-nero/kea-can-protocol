@@ -57,24 +57,6 @@ void Cpu_OnNMI(void)
   /* Write your code here ... */
 }
 
-/*
-** ===================================================================
-**     Event       :  AD1_OnEnd (module Events)
-**
-**     Component   :  AD1 [ADC]
-**     Description :
-**         This event is called after the measurement (which consists
-**         of <1 or more conversions>) is/are finished.
-**         The event is available only when the <Interrupt
-**         service/event> property is enabled.
-**     Parameters  : None
-**     Returns     : Nothing
-** ===================================================================
-*/
-void AD1_OnEnd(void)
-{
-  /* Write your code here ... */
-}
 
 /*
 ** ===================================================================
@@ -99,7 +81,7 @@ void CAN_OnFreeTxBuffer(LDD_TUserData *UserDataPtr, LDD_CAN_TMBIndex BufferIdx)
 {
   /* Write your code here ... */
     (void) UserDataPtr;
-    hal_can_tx_callback(BufferIdx);
+    hal_can_tx_callback(eCanPort_0, BufferIdx);
 }
 
 /*
@@ -125,7 +107,7 @@ void CAN_OnFullRxBuffer(LDD_TUserData *UserDataPtr, LDD_CAN_TMBIndex BufferIdx)
 {
   /* Write your code here ... */
     (void) UserDataPtr;
-    hal_can_rx_callback(BufferIdx);
+    hal_can_rx_callback(eCanPort_0, BufferIdx);
 }
 
 /*
@@ -148,7 +130,7 @@ void CAN_OnError(LDD_TUserData *UserDataPtr)
 {
   /* Write your code here ... */
     (void) UserDataPtr;
-    hal_can_error_callback(HAL_CAN_ER_ERROR);
+    hal_can_error_callback(eCanPort_0, HAL_CAN_ER_ERROR);
 }
 
 /*
@@ -172,7 +154,7 @@ void CAN_OnBusOff(LDD_TUserData *UserDataPtr)
 {
   /* Write your code here ... */
     (void) UserDataPtr;
-    hal_can_error_callback(HAL_CAN_ER_BUSOFF);
+    hal_can_error_callback(eCanPort_0, HAL_CAN_ER_BUSOFF);
 }
 
 /*

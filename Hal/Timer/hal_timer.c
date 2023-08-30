@@ -6,7 +6,7 @@
  */
 #include "hal_timer.h"
 #include "TaskTimer.h"
-#include "task_init.h"
+#include "task.h"
 
 static LDD_TDeviceData *halTimer0DevicePtr = NULL;
 halTimerCallbackFunc ghalTimerTaskTimerCallback = NULL;
