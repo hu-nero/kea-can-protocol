@@ -27,7 +27,7 @@ task_init(void)
     can_protocol_task_init();
     //task add
     task_add(led_task,50,500);
-    task_add(can_protocol_task,10,500);
+    task_add(can_protocol_task,10,10);
 }
 
 void

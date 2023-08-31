@@ -10,6 +10,8 @@
 
 static LDD_TDeviceData *halTimer0DevicePtr = NULL;
 halTimerCallbackFunc ghalTimerTaskTimerCallback = NULL;
+static uint32_t gu32TimerCounter = 0;
+static uint32_t gu32TimerRunTime = 0;
 
 /**
  * @brief :FTM timer init
@@ -180,6 +182,15 @@ hal_timer_timeus_get(uint8_t Id, uint16_t *TimeUs)
 }
 
 /**
+ * @brief :get run time
+ */
+uint32_t
+hal_timer_get_time(void)
+{
+    return gu32TimerRunTime;
+}
+
+/**
  * @brief :set timer0 callback
  */
 void
@@ -193,6 +204,12 @@ hal_timer0_callback_set(halTimerCallbackFunc Func)
 void
 hal_timer0_callback(void)
 {
+    gu32TimerCounter ++;
+    if (gu32TimerCounter == 1000)
+    {
+        gu32TimerCounter = 0;
+        gu32TimerRunTime ++;
+    }
     ghalTimerTaskTimerCallback();
 }
 
