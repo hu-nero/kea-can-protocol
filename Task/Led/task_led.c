@@ -24,6 +24,7 @@ led_task(void)
       hal_gpio_toggle_pin(MCU_LED_G_PORT, MCU_LED_G_PIN);
 //      hal_gpio_toggle_pin(MCU_LED0_PORT, MCU_LED0_PIN);
 //      hal_gpio_toggle_pin(MCU_LED1_PORT, MCU_LED1_PIN);
+    return 0;
 }
 
 
