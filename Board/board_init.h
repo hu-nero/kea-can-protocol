@@ -9,7 +9,6 @@
 #define BOARD_BOARD_INIT_H_
 
 
-
 extern void board_init(void);
 
 

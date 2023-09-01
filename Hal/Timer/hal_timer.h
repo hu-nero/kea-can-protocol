@@ -66,6 +66,10 @@ extern uint16_t hal_timer_timeus_set(uint8_t Id, uint16_t TimeUs);
  */
 extern uint16_t hal_timer_timeus_get(uint8_t Id, uint16_t *TimeUs);
 
+/**
+ * @brief :get run time
+ */
+extern uint32_t hal_timer_get_time(void);
 
 /**
  * @brief :set timer0 callback
