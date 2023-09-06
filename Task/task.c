@@ -22,6 +22,8 @@ task_init(void)
 {
 	//task tick timer callback func set
     hal_timer0_callback_set(task_timer_callback);
+    //timer init
+    hal_timer_init(HAL_DEV_TIM0);
     //task init
     led_task_init();
     can_protocol_task_init();

@@ -7,7 +7,7 @@
 **     Version     : Component 01.112, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-08-30, 11:06, # CodeGen: 10
+**     Date/Time   : 2023-09-06, 16:50, # CodeGen: 7
 **     Abstract    :
 **         This component "CAN_LDD" implements a CAN serial channel.
 **     Settings    :
@@ -32,9 +32,9 @@
 **          Settings                                       : 
 **            Pins                                         : 
 **              Rx pin                                     : 
-**                Rx pin                                   : PTH2/KBI1_P26/BUSOUT/FTM1_CH0/CAN0_RX
+**                Rx pin                                   : PTC6/KBI0_P22/UART1_RX/CAN0_RX
 **              Tx pin                                     : 
-**                Tx pin                                   : <Automatic>
+**                Tx pin                                   : PTC7/KBI0_P23/UART1_TX/CAN0_TX
 **            Global acceptance mask                       : no
 **            Receiver FIFO                                : Enabled
 **              ID filter acceptance mode                  : One 32-bit
@@ -212,8 +212,8 @@ LDD_TDeviceData* CAN_Init(LDD_TUserData *UserDataPtr)
   INT_MSCAN_TX__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
   /* {Default RTOS Adapter} Set interrupt vector: IVT is static, ISR parameter is passed by the global variable */
   INT_MSCAN_RX__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
-  /* SIM_PINSEL1: MSCANPS=1 */
-  SIM_PINSEL1 |= SIM_PINSEL1_MSCANPS_MASK;
+  /* SIM_PINSEL1: MSCANPS=0 */
+  SIM_PINSEL1 &= (uint32_t)~(uint32_t)(SIM_PINSEL1_MSCANPS_MASK);
   /* Interrupt priorities */
   /* NVIC_IPR7: PRI_31=1 */
   NVIC_IPR7 = (uint32_t)((NVIC_IPR7 & (uint32_t)~(uint32_t)(
