@@ -22,11 +22,13 @@ task_init(void)
 {
 	//task tick timer callback func set
     hal_timer0_callback_set(task_timer_callback);
+    //timer init
+    hal_timer_init(HAL_DEV_TIM0);
     //task init
     led_task_init();
     can_protocol_task_init();
     //task add
-    task_add(led_task, 50, 500, 10);
+    task_add(led_task, 50, 500, TASK_MAX_TIMES);
     task_add(can_protocol_task, 10, 10, TASK_MAX_TIMES);
 }
 

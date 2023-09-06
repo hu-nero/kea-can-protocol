@@ -3,7 +3,7 @@
   <Header>
     <Name>HC03_Project</Name>
     <SavedBy>xinlei.hu</SavedBy>
-    <ModificationStamp>100</ModificationStamp>
+    <ModificationStamp>101</ModificationStamp>
     <Date>2023-01-30</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1550-0615</PEversion>
@@ -7458,7 +7458,7 @@
         <ItemSymbol>Inp</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>PTH2/KBI1_P26/BUSOUT/FTM1_CH0/CAN0_RX</Value>
+        <Value>PTC6/KBI0_P22/UART1_RX/CAN0_RX</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
@@ -7477,7 +7477,7 @@
         <ItemSymbol>Out</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>&lt;Automatic&gt;</Value>
+        <Value>PTC7/KBI0_P23/UART1_TX/CAN0_TX</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>
