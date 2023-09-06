@@ -26,8 +26,8 @@ task_init(void)
     led_task_init();
     can_protocol_task_init();
     //task add
-    task_add(led_task,50,500);
-    task_add(can_protocol_task,10,10);
+    task_add(led_task, 50, 500, 10);
+    task_add(can_protocol_task, 10, 10, TASK_MAX_TIMES);
 }
 
 void
@@ -41,12 +41,23 @@ task_run(void)
       // Check if there is a task at this location
       if (gTaskMain[u8TaskId].pTask != NULL)
       {
+         //执行任务
          if (gTaskMain[u8TaskId].taskTick == 0)
          {
             gTaskCurId = u8TaskId;
             // All tasks are periodic: schedule task to run again
             gTaskMain[u8TaskId].taskTick = gTaskMain[u8TaskId].taskPeriod;
             (*gTaskMain[u8TaskId].pTask)(); // Run the task
+
+
+            //更新执行次数
+            if(gTaskMain[u8TaskId].taskTimes != TASK_MAX_TIMES) //任务定时器
+                gTaskMain[u8TaskId].taskTimes--;
+            //删除任务
+           if (gTaskMain[u8TaskId].taskTimes == 0)
+           {
+               task_delete(gTaskMain[u8TaskId].pTask);
+           }
          }
       }
    }
@@ -55,7 +66,8 @@ task_run(void)
 void
 task_add(uint16_t (*PTask)(),
         const uint32_t Tick,
-        const uint32_t Period)
+        const uint32_t Period,
+        const uint32_t Times)
 {
      uint32_t u32TaskId = 0;
 
@@ -74,6 +86,7 @@ task_add(uint16_t (*PTask)(),
       gTaskMain[u32TaskId].pTask = PTask;
       gTaskMain[u32TaskId].taskTick = Tick + 1;
       gTaskMain[u32TaskId].taskPeriod = Period;
+      gTaskMain[u32TaskId].taskTimes = Times;
    }
 }
 

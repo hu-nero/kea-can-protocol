@@ -26,29 +26,27 @@ can_protocol_task_init(void)
     gTsCanFrame.is_ext_id = 1;
     memset(gTsCanFrame.data, 0, 8);
 
-//    hal_gpio_set_pin_dir(DUT_CH0_PORT, DUT_CH0_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH1_PORT, DUT_CH1_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH2_PORT, DUT_CH2_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH3_PORT, DUT_CH3_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH4_PORT, DUT_CH4_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH5_PORT, DUT_CH5_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH6_PORT, DUT_CH6_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH7_PORT, DUT_CH7_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH8_PORT, DUT_CH8_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH9_PORT, DUT_CH9_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH10_PORT, DUT_CH10_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH11_PORT, DUT_CH11_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH12_PORT, DUT_CH12_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH13_PORT, DUT_CH13_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH14_PORT, DUT_CH14_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
-//    hal_gpio_set_pin_dir(DUT_CH15_PORT, DUT_CH15_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH0_PORT, DUT_CH0_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH1_PORT, DUT_CH1_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH2_PORT, DUT_CH2_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH3_PORT, DUT_CH3_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH4_PORT, DUT_CH4_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH5_PORT, DUT_CH5_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH6_PORT, DUT_CH6_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH7_PORT, DUT_CH7_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH8_PORT, DUT_CH8_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH9_PORT, DUT_CH9_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH10_PORT, DUT_CH10_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH11_PORT, DUT_CH11_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH12_PORT, DUT_CH12_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH13_PORT, DUT_CH13_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH14_PORT, DUT_CH14_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
+    hal_gpio_set_pin_dir(DUT_CH15_PORT, DUT_CH15_PIN, HAL_GPIO_OUTPUT_DIRECTION, 0);
 }
 
 uint16_t
 can_protocol_task(void)
 {
-    //(void)CAN_FIFO_Write(0, &gTsCanFrame);
-#if 1
     //½âÎöCAN±¨ÎÄ
     uint8_t res = 0;
     if ((gTsCanFramePtr = hal_can_rx_queue_de()) != NULL)
@@ -133,11 +131,8 @@ can_protocol_task(void)
             default:break;
         }
     }
-#endif
-    return 0;
 }
 
-#if 1
 /**
  * @brief :single assign ctrl
  *
@@ -256,88 +251,87 @@ can_protocol_task_single_ch_read(uint8_t Ch, uint32_t *Value)
     {
         case 0:
             {
-                res = hal_gpio_read_pin(DUT_CH0_PORT, DUT_CH0_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH0_PORT, DUT_CH0_PIN, Value);
             }
             break;
         case 1:
             {
-                res = hal_gpio_read_pin(DUT_CH1_PORT, DUT_CH1_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH1_PORT, DUT_CH1_PIN, Value);
             }
             break;
         case 2:
             {
-                res = hal_gpio_read_pin(DUT_CH2_PORT, DUT_CH2_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH2_PORT, DUT_CH2_PIN, Value);
             }
             break;
         case 3:
             {
-                res = hal_gpio_read_pin(DUT_CH3_PORT, DUT_CH3_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH3_PORT, DUT_CH3_PIN, Value);
             }
             break;
         case 4:
             {
-                res = hal_gpio_read_pin(DUT_CH4_PORT, DUT_CH4_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH4_PORT, DUT_CH4_PIN, Value);
             }
             break;
         case 5:
             {
-                res = hal_gpio_read_pin(DUT_CH5_PORT, DUT_CH5_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH5_PORT, DUT_CH5_PIN, Value);
             }
             break;
         case 6:
             {
-                res = hal_gpio_read_pin(DUT_CH6_PORT, DUT_CH6_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH6_PORT, DUT_CH6_PIN, Value);
             }
             break;
         case 7:
             {
-                res = hal_gpio_read_pin(DUT_CH7_PORT, DUT_CH7_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH7_PORT, DUT_CH7_PIN, Value);
             }
             break;
         case 8:
             {
-                res = hal_gpio_read_pin(DUT_CH8_PORT, DUT_CH8_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH8_PORT, DUT_CH8_PIN, Value);
             }
             break;
         case 9:
             {
-                res = hal_gpio_read_pin(DUT_CH9_PORT, DUT_CH9_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH9_PORT, DUT_CH9_PIN, Value);
             }
             break;
         case 10:
             {
-                res = hal_gpio_read_pin(DUT_CH10_PORT, DUT_CH10_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH10_PORT, DUT_CH10_PIN, Value);
             }
             break;
         case 11:
             {
-                res = hal_gpio_read_pin(DUT_CH11_PORT, DUT_CH11_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH11_PORT, DUT_CH11_PIN, Value);
             }
             break;
         case 12:
             {
-                res = hal_gpio_read_pin(DUT_CH12_PORT, DUT_CH12_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH12_PORT, DUT_CH12_PIN, Value);
             }
             break;
         case 13:
             {
-                res = hal_gpio_read_pin(DUT_CH13_PORT, DUT_CH13_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH13_PORT, DUT_CH13_PIN, Value);
             }
             break;
         case 14:
             {
-                res = hal_gpio_read_pin(DUT_CH14_PORT, DUT_CH14_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH14_PORT, DUT_CH14_PIN, Value);
             }
             break;
         case 15:
             {
-                res = hal_gpio_read_pin(DUT_CH15_PORT, DUT_CH15_PIN, Value);
+                res = hal_gpio_get_pin_output_value(DUT_CH15_PORT, DUT_CH15_PIN, Value);
             }
             break;
         default:break;
     }
     return res;
 }
-#endif
 
 
