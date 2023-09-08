@@ -14,6 +14,7 @@
 #define CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET     0
 
 //assign ctrl
+#define DUT_CH_NUM                               16u
 #define DUT_CH0_PORT                             HAL_GPIOB_PTH
 #define DUT_CH0_PIN                              1u
 #define DUT_CH1_PORT                             HAL_GPIOB_PTH

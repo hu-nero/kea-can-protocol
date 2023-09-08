@@ -35,34 +35,34 @@ task_init(void)
 void
 task_run(void)
 {
-   uint8_t u8TaskId;
+    uint8_t u8TaskId;
 
-   // Go through the task array
-   for (u8TaskId = 0; u8TaskId < MAX_TASKS_SIZE; u8TaskId++)
-   {
-      // Check if there is a task at this location
-      if (gTaskMain[u8TaskId].pTask != NULL)
-      {
-         //执行任务
-         if (gTaskMain[u8TaskId].taskTick == 0)
-         {
-            gTaskCurId = u8TaskId;
-            // All tasks are periodic: schedule task to run again
-            gTaskMain[u8TaskId].taskTick = gTaskMain[u8TaskId].taskPeriod;
-            (*gTaskMain[u8TaskId].pTask)(); // Run the task
+    // Go through the task array
+    for (u8TaskId = 0; u8TaskId < MAX_TASKS_SIZE; u8TaskId++)
+    {
+        // Check if there is a task at this location
+        if (gTaskMain[u8TaskId].pTask != NULL)
+        {
+            //执行任务
+            if (gTaskMain[u8TaskId].taskTick == 0)
+            {
+                gTaskCurId = u8TaskId;
+                // All tasks are periodic: schedule task to run again
+                gTaskMain[u8TaskId].taskTick = gTaskMain[u8TaskId].taskPeriod;
+                (*gTaskMain[u8TaskId].pTask)(); // Run the task
 
 
-            //更新执行次数
-            if(gTaskMain[u8TaskId].taskTimes != TASK_MAX_TIMES) //任务定时器
-                gTaskMain[u8TaskId].taskTimes--;
-            //删除任务
-           if (gTaskMain[u8TaskId].taskTimes == 0)
-           {
-               task_delete(gTaskMain[u8TaskId].pTask);
-           }
-         }
-      }
-   }
+                //更新执行次数
+                if(gTaskMain[u8TaskId].taskTimes != TASK_MAX_TIMES) //任务定时器
+                    gTaskMain[u8TaskId].taskTimes--;
+                //删除任务
+                if (gTaskMain[u8TaskId].taskTimes == 0)
+                {
+                    task_delete(gTaskMain[u8TaskId].pTask);
+                }
+            }
+        }
+    }
 }
 
 void

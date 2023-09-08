@@ -14,6 +14,7 @@ TsCanFrame gTsCanFrame = {};
 static TsCanFrame *gTsCanFramePtr = NULL;
 static uint8_t gu8Channal = 0xFF;
 
+static uint16_t can_protocol_task_ch_assignctrls(uint8_t PreCh, uint8_t CurCh);
 static uint16_t can_protocol_task_single_ch_assignctrl(uint8_t Ch, uint8_t Value);
 static uint16_t can_protocol_task_single_ch_read(uint8_t Ch, uint32_t *Value);
 
@@ -75,21 +76,19 @@ can_protocol_task(void)
                             break;
                         case CAN_PROTOCOL_CMD_ASSIGN_CTRL:
                             {
-                                uint32_t u32Value = 0;
                                 uint8_t u8Channal = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET];
-                                res = can_protocol_task_single_ch_assignctrl(u8Channal, 1);
-                                //选通失败
-                                if (res == 1)
+                                res = can_protocol_task_ch_assignctrls(gu8Channal, u8Channal);
+                                if (res == 0)
                                 {
+                                    gu8Channal = u8Channal;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = gu8Channal;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = u8Channal;
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
-                                    return 0;
                                 }
                                 //都不选通
-                                else if (res == 2)
+                                else if (res == 4)
                                 {
                                     gu8Channal = 0xFF;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
@@ -99,28 +98,15 @@ can_protocol_task(void)
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                     return 0;
                                 }
-                                res = can_protocol_task_single_ch_read(u8Channal, &u32Value);
-                                //读取失败
-                                if (res)
+                                //选通失败
+                                else if (res)
                                 {
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = gu8Channal;
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
-                                }
-                                //读取成功
-                                else
-                                {
-                                    if (u32Value)
-                                    {
-                                        gu8Channal = u8Channal;
-                                        gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                        gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
-                                        gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
-                                        gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = u8Channal;
-                                        (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
-                                    }
+                                    return 0;
                                 }
                             }
                             break;
@@ -131,6 +117,79 @@ can_protocol_task(void)
             default:break;
         }
     }
+}
+
+/**
+ * @brief :ch assign ctrl
+ *
+ * @param PreCh:previous ch
+ * @param CurCh:current ch
+ *
+ * @return :0 is success;4 is select none;other is failed
+ */
+static uint16_t
+can_protocol_task_ch_assignctrls(uint8_t PreCh, uint8_t CurCh)
+{
+    uint16_t res = 0;
+    uint32_t u32Value = 0;
+
+    //当前值为有效值
+    if ((CurCh >= 0) && (CurCh < DUT_CH_NUM))
+    {
+        //保存值为有效值
+        if ((PreCh >= 0) && (PreCh < DUT_CH_NUM))
+        {
+            if (PreCh != CurCh)
+            {
+                can_protocol_task_single_ch_assignctrl(PreCh, 0);
+                can_protocol_task_single_ch_read(PreCh, &u32Value);
+                if (u32Value)
+                {
+                    res = 1;
+                }
+            }
+            can_protocol_task_single_ch_assignctrl(CurCh, 1);
+            can_protocol_task_single_ch_read(CurCh, &u32Value);
+            if (u32Value != 1)
+            {
+                res = 2;
+            }
+        }
+        //保存值为无效值
+        else
+        {
+            can_protocol_task_single_ch_assignctrl(CurCh, 1);
+            can_protocol_task_single_ch_read(CurCh, &u32Value);
+            if (u32Value != 1)
+            {
+                res = 3;
+            }
+        }
+    }
+    //当前值为无效值
+    else
+    {
+        //保存值为有效值,取消选通
+        if ((PreCh >= 0) && (PreCh < DUT_CH_NUM))
+        {
+            can_protocol_task_single_ch_assignctrl(PreCh, 0);
+            can_protocol_task_single_ch_read(PreCh, &u32Value);
+            if (u32Value == 0)
+            {
+                res = 4;
+            }
+            else
+            {
+                res = 5;
+            }
+        }
+        //保存值为无效值
+        else
+        {
+            ;
+        }
+    }
+    return res;
 }
 
 /**
