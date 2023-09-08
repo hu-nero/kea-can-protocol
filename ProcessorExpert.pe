@@ -3,7 +3,7 @@
   <Header>
     <Name>HC03_Project</Name>
     <SavedBy>xinlei.hu</SavedBy>
-    <ModificationStamp>101</ModificationStamp>
+    <ModificationStamp>102</ModificationStamp>
     <Date>2023-01-30</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1550-0615</PEversion>
@@ -4433,7 +4433,7 @@
         <ItemSymbol>IRQ_extInt_0</ItemSymbol>
         <ReadOnly>false</ReadOnly>
         <UserReadOnly>false</UserReadOnly>
-        <Value>PTI4/IRQ</Value>
+        <Value>&lt;Automatic&gt;</Value>
         <SharedPrphMode>false</SharedPrphMode>
       </ItemState>
       <ItemState>

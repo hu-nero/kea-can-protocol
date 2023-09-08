@@ -8,7 +8,7 @@
 **     Repository  : Kinetis
 **     Datasheet   : KEA128RM, Rev. 22, Jun 2014
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-08-29, 11:51, # CodeGen: 7
+**     Date/Time   : 2023-09-08, 17:55, # CodeGen: 8
 **     Abstract    :
 **
 **     Settings    :
@@ -95,13 +95,8 @@ void Common_Init(void)
      registers in this method (see active generator configuration 
      Optimizations\Utilize after reset values property or enabled processor 
      component Common settings\Utilize after reset values property) */
-  /* SIM_PINSEL0: SPI0PS=0,IRQPS=5 */
-  SIM_PINSEL0 = (uint32_t)((SIM_PINSEL0 & (uint32_t)~(uint32_t)(
-                 SIM_PINSEL_SPI0PS_MASK |
-                 SIM_PINSEL_IRQPS(0x02)
-                )) | (uint32_t)(
-                 SIM_PINSEL_IRQPS(0x05)
-                ));
+  /* SIM_PINSEL0: SPI0PS=0 */
+  SIM_PINSEL0 &= (uint32_t)~(uint32_t)(SIM_PINSEL_SPI0PS_MASK);
   /* SIM_PINSEL1: SPI1PS=0 */
   SIM_PINSEL1 &= (uint32_t)~(uint32_t)(SIM_PINSEL1_SPI1PS_MASK);
   /* SCB_SHPR3: PRI_15=0 */
