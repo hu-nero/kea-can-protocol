@@ -156,14 +156,14 @@ can_protocol_task(void)
                                 //FTM PWM func
                             }
                             break;
-                        case CAN_PROTOCOL_CMD_CP_Vol_QUERY:
+                        case CAN_PROTOCOL_CMD_CP_VOL_QUERY:
                             {
                                 uint16_t *u16VolValuePtr;
                                 u16VolValuePtr = adc_measure_task_vol_get(HAL_ADC_GROUP_0);
                                 if (u16VolValuePtr == NULL)
                                 {
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_Vol_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_VOL_QUERY;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
@@ -173,7 +173,7 @@ can_protocol_task(void)
                                     SingleWordUnion singleWordTmp = {0};
                                     singleWordTmp.u16Data = u16VolValuePtr[0];
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_Vol_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_VOL_QUERY;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], &singleWordTmp.u8Data, sizeof(SingleWordUnion));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
@@ -192,7 +192,7 @@ can_protocol_task(void)
                                 if ((res != 0) || (u16VolValueGroup1Ptr == NULL) || (u16VolValueGroup2Ptr == NULL))
                                 {
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_Vol_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_INPUT_PORT_QUERY;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
@@ -200,7 +200,7 @@ can_protocol_task(void)
                                 {
                                     uint8_t u8BitValue = 0;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_Vol_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_INPUT_PORT_QUERY;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     if (doubleWordDI0.u32Data)
                                         SET_NUM_BIT(u8BitValue, DI_0_BIT);
@@ -218,7 +218,7 @@ can_protocol_task(void)
                                         else
                                             RESET_NUM_BIT(u8BitValue, index);
                                     }
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CMD_LSD_CURRENT_QUERY] = u8BitValue;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_LSD_STATE_OFFSET] = u8BitValue;
                                     for (uint8_t index=0;index<HSD_MAX_BIT;index++)
                                     {
                                         if (u16VolValueGroup1Ptr[index])
@@ -226,17 +226,60 @@ can_protocol_task(void)
                                         else
                                             RESET_NUM_BIT(u8BitValue, index);
                                     }
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CMD_HSD_CURRENT_QUERY] = u8BitValue;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_HSD_STATE_OFFSET] = u8BitValue;
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
                             }
                             break;
                         case CAN_PROTOCOL_CMD_LSD_CURRENT_QUERY:
                             {
+                                //I=U/R
+                                uint16_t *u16VolValueLSDPtr;
+                                u16VolValueLSDPtr = adc_measure_task_vol_get(HAL_ADC_GROUP_2);
+                                if (u16VolValueLSDPtr == NULL)
+                                {
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_LSD_CURRENT_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                }
+                                else
+                                {
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_LSD_CURRENT_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_LSD_0_CURRENT_OFFSET] = (uint8_t)(u16VolValueLSDPtr[CAN_PROTOCOL_LSD_0_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_LSD_1_CURRENT_OFFSET] = (uint8_t)(u16VolValueLSDPtr[CAN_PROTOCOL_LSD_1_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_LSD_2_CURRENT_OFFSET] = (uint8_t)(u16VolValueLSDPtr[CAN_PROTOCOL_LSD_2_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_LSD_3_CURRENT_OFFSET] = (uint8_t)(u16VolValueLSDPtr[CAN_PROTOCOL_LSD_3_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                }
                             }
                             break;
                         case CAN_PROTOCOL_CMD_HSD_CURRENT_QUERY:
                             {
+                                //I=U/R
+                                uint16_t *u16VolValueHSDPtr;
+                                u16VolValueHSDPtr = adc_measure_task_vol_get(HAL_ADC_GROUP_1);
+                                if (u16VolValueHSDPtr == NULL)
+                                {
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_HSD_CURRENT_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                }
+                                else
+                                {
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_HSD_CURRENT_QUERY;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_HSD_0_CURRENT_OFFSET] = (uint8_t)(u16VolValueHSDPtr[CAN_PROTOCOL_HSD_0_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_HSD_1_CURRENT_OFFSET] = (uint8_t)(u16VolValueHSDPtr[CAN_PROTOCOL_HSD_1_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_HSD_2_CURRENT_OFFSET] = (uint8_t)(u16VolValueHSDPtr[CAN_PROTOCOL_HSD_2_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_HSD_3_CURRENT_OFFSET] = (uint8_t)(u16VolValueHSDPtr[CAN_PROTOCOL_HSD_3_CURRENT_OFFSET]/(uint16_t)CAN_PROTOCOL_HLSD_R_VALUE);
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                }
                             }
                             break;
                         default:break;
