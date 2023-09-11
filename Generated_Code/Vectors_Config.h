@@ -52,6 +52,7 @@
 #include "Pins1.h"
 #include "CAN.h"
 #include "TaskTimer.h"
+#include "WDog.h"
 #include "Events.h"
 
 #ifdef __cplusplus

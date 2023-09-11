@@ -5,6 +5,7 @@
  *      Author: xinlei.hu
  */
 #include "task.h"
+#include "WDog/task_wdog.h"
 #include "Led/task_led.h"
 #include "Can_Protocol/task_can_protocol.h"
 #include "Timer/hal_timer.h"
@@ -25,9 +26,11 @@ task_init(void)
     //timer init
     hal_timer_init(HAL_DEV_TIM0);
     //task init
+    wdog_task_init();
     led_task_init();
     can_protocol_task_init();
     //task add
+    task_add(wdog_task, 5, 500, TASK_MAX_TIMES);
     task_add(led_task, 50, 500, TASK_MAX_TIMES);
     task_add(can_protocol_task, 10, 10, TASK_MAX_TIMES);
 }
