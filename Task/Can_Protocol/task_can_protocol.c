@@ -72,14 +72,14 @@ can_protocol_task(void)
                     {
                         case CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST:
                             {
-                                DoubleWordUnion doubleWordTmp;
-                                doubleWordTmp.u32Data = hal_timer_get_time();
+                                DoubleWordUnion timetickTmp;
+                                timetickTmp.u32Data = hal_timer_get_time();
                                 //TODO:返回软件版本和开机时间
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST;
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_VERSION_OFFSET] = SoftsVer[10];
-                                memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
+                                memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET], timetickTmp.u8Data, sizeof(timetickTmp));
                                 (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                             }
                             break;

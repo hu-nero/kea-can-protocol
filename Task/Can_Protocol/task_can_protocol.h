@@ -68,6 +68,10 @@
 #define DUT_CH22_PIN                             3u
 #define DUT_CH23_PORT                            HAL_GPIOA_PTD
 #define DUT_CH23_PIN                             2u
+#define CAN_PROTOCOL_SYSINFO_VERSION_OFFSET     0
+#define CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET     2
+#define CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET     0
+
 typedef enum
 {
     CAN_PROTOCOL_ID_REQUEST = 0x1C00B001,

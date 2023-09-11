@@ -36,6 +36,7 @@
 #include "Pins1.h"
 #include "CAN.h"
 #include "TaskTimer.h"
+#include "WDog.h"
 
 #ifdef __cplusplus
 extern "C" {
