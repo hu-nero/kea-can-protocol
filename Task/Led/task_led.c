@@ -5,6 +5,7 @@
  *      Author: xinlei.hu
  */
 #include "task_led.h"
+#include "board_pin_config.h"
 #include "Hal.h"
 
 

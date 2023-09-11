@@ -9,75 +9,66 @@
 #define TASK_CAN_PROTOCOL_TASK_CAN_PROTOCOL_H_
 #include <stdint.h>
 
-#define CAN_PROTOCOL_SYSINFO_VERSION_OFFSET        0
-#define CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET      2
+#define CAN_PROTOCOL_SYSINFO_VERSION_OFFSET        0u
+#define CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET      2u
 
-#define CAN_PROTOCOL_ASSIGNCTRL_CHSIZE            24
-#define CAN_PROTOCOL_ASSIGNCTRL_CHCTRUL_OFFSET     0
-#define CAN_PROTOCOL_ASSIGNCTRL_CHMASK_OFFSET      3
+#define CAN_PROTOCOL_SWITCH_OUTPUTCTRL_OFFSET      0u
+#define CAN_PROTOCOL_SWITCH_OUTPUTCTRL_MASK_OFFSET 1u
 
-//assign ctrl
-#define DUT_CH0_PORT                             HAL_GPIOB_PTH
-#define DUT_CH0_PIN                              1u
-#define DUT_CH1_PORT                             HAL_GPIOB_PTH
-#define DUT_CH1_PIN                              0u
-#define DUT_CH2_PORT                             HAL_GPIOB_PTE
-#define DUT_CH2_PIN                              6u
-#define DUT_CH3_PORT                             HAL_GPIOB_PTE
-#define DUT_CH3_PIN                              5u
-#define DUT_CH4_PORT                             HAL_GPIOA_PTB
-#define DUT_CH4_PIN                              5u
-#define DUT_CH5_PORT                             HAL_GPIOA_PTB
-#define DUT_CH5_PIN                              4u
+#define CAN_PROTOCOL_NTC_R_OFFSET                  0u
+#define CAN_PROTOCOL_NTC_CH_STATE_OFFSET           2u
 
-#define DUT_CH6_PORT                             HAL_GPIOA_PTC
-#define DUT_CH6_PIN                              3u
-#define DUT_CH7_PORT                             HAL_GPIOA_PTC
-#define DUT_CH7_PIN                              2u
-#define DUT_CH8_PORT                             HAL_GPIOA_PTD
-#define DUT_CH8_PIN                              7u
-#define DUT_CH9_PORT                             HAL_GPIOA_PTD
-#define DUT_CH9_PIN                              6u
-#define DUT_CH10_PORT                            HAL_GPIOA_PTD
-#define DUT_CH10_PIN                             5u
-#define DUT_CH11_PORT                            HAL_GPIOA_PTC
-#define DUT_CH11_PIN                             1u
+#define CAN_PROTOCOL_CC_R_OFFSET                   0u
+#define CAN_PROTOCOL_CC2_1K_R_PULLDOWN_OFFSET      2u
+#define CAN_PROTOCOL_CC_MASK                       3u
 
-#define DUT_CH12_PORT                            HAL_GPIOA_PTC
-#define DUT_CH12_PIN                             0u
-#define DUT_CH13_PORT                            HAL_GPIOB_PTF
-#define DUT_CH13_PIN                             7u
-#define DUT_CH14_PORT                            HAL_GPIOB_PTF
-#define DUT_CH14_PIN                             6u
-#define DUT_CH15_PORT                            HAL_GPIOB_PTF
-#define DUT_CH15_PIN                             5u
-#define DUT_CH16_PORT                            HAL_GPIOB_PTF
-#define DUT_CH16_PIN                             4u
-#define DUT_CH17_PORT                            HAL_GPIOA_PTB
-#define DUT_CH17_PIN                             3u
+#define CAN_PROTOCOL_DI_VALUE_OFFSET               0u
+#define CAN_PROTOCOL_LSD_STATE_OFFSET              1u
+#define CAN_PROTOCOL_HSD_STATE_OFFSET              2u
 
-#define DUT_CH18_PORT                            HAL_GPIOA_PTB
-#define DUT_CH18_PIN                             2u
-#define DUT_CH19_PORT                            HAL_GPIOB_PTF
-#define DUT_CH19_PIN                             1u
-#define DUT_CH20_PORT                            HAL_GPIOB_PTF
-#define DUT_CH20_PIN                             0u
-#define DUT_CH21_PORT                            HAL_GPIOA_PTD
-#define DUT_CH21_PIN                             4u
-#define DUT_CH22_PORT                            HAL_GPIOA_PTD
-#define DUT_CH22_PIN                             3u
-#define DUT_CH23_PORT                            HAL_GPIOA_PTD
-#define DUT_CH23_PIN                             2u
+
 typedef enum
 {
     CAN_PROTOCOL_ID_REQUEST = 0x1C00B001,
     CAN_PROTOCOL_ID_RESPONSE = 0x1C00B002
 } CAN_PROTOCOL_ID_Enum;
 
+enum
+{
+    DI_0_BIT = 0,
+    DI_1_BIT
+};
+
+enum
+{
+    LSD_0_BIT = 0,
+    LSD_1_BIT,
+    LSD_2_BIT,
+    LSD_3_BIT,
+    LSD_MAX_BIT
+};
+
+enum
+{
+    HSD_0_BIT = 0,
+    HSD_1_BIT,
+    HSD_2_BIT,
+    HSD_3_BIT,
+    HSD_MAX_BIT
+};
+
 typedef enum
 {
     CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST = 0,
-    CAN_PROTOCOL_CMD_ASSIGN_CTRL = 24
+    CAN_PROTOCOL_CMD_RESET = 1,
+    CAN_PROTOCOL_CMD_SWITCH_OUTPUT_CTRL = 3,
+    CAN_PROTOCOL_CMD_NTC_R_SIMULATION = 5,
+    CAN_PROTOCOL_CMD_CC_R_SIMULATION = 7,
+    CAN_PROTOCOL_CMD_CP_SIMULATION = 9,
+    CAN_PROTOCOL_CMD_CP_Vol_QUERY = 11,
+    CAN_PROTOCOL_CMD_INPUT_PORT_QUERY = 13,
+    CAN_PROTOCOL_CMD_LSD_CURRENT_QUERY= 15,
+    CAN_PROTOCOL_CMD_HSD_CURRENT_QUERY= 17
 } CAN_PROTOCOL_CMD_Enum;
 
 typedef enum
@@ -102,6 +93,12 @@ typedef enum
     CAN_PROTOCOL_RESP_RESULTS_OK = 0,
     CAN_PROTOCOL_RESP_RESULTS_ERR = 1
 } CAN_PROTOCOL_RESP_RESULTS_Enum;
+
+typedef union
+{
+    uint16_t u16Data;
+    uint8_t  u8Data[2];
+} SingleWordUnion;
 
 typedef union
 {

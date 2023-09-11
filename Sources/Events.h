@@ -36,6 +36,7 @@
 #include "Pins1.h"
 #include "CAN.h"
 #include "TaskTimer.h"
+#include "AD.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -248,6 +249,29 @@ void PIT0_OnCounterRestart(LDD_TUserData *UserDataPtr);
 */
 /* ===================================================================*/
 void TaskTimer_OnCounterRestart(LDD_TUserData *UserDataPtr);
+
+/*
+** ===================================================================
+**     Event       :  AD_OnMeasurementComplete (module Events)
+**
+**     Component   :  AD [ADC_LDD]
+*/
+/*!
+**     @brief
+**         Called after measurement is done, [Interrupt service/event]
+**         is enabled, OnMeasurementComplete event is enabled and ADC
+**         device is enabled. See [SetEventMask()] method or [Event
+**         mask] property group to enable this event and [Enable]
+**         method or [Enabled in init. code] property to enable ADC
+**         device. If DMA is enabled , this event is called after the
+**         configured number of measurements and DMA transfer is done.
+**     @param
+**         UserDataPtr     - Pointer to the user or
+**                           RTOS specific data. The pointer is passed
+**                           as the parameter of Init method. 
+*/
+/* ===================================================================*/
+void AD_OnMeasurementComplete(LDD_TUserData *UserDataPtr);
 
 /* END Events */
 

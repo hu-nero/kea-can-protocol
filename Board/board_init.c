@@ -19,5 +19,7 @@ board_init(void)
     hal_timer_init(HAL_DEV_TIM0);
     //can init
     hal_can_init(eCanPort_0);
+    //adc init
+    hal_adc_init(HAL_DEV_ADC0);
 
 }

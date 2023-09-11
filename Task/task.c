@@ -7,6 +7,8 @@
 #include "task.h"
 #include "Led/task_led.h"
 #include "Can_Protocol/task_can_protocol.h"
+#include "Cp_Simulate/task_cp_simulate.h"
+#include "Adc_Measure/task_adc_measure.h"
 #include "Timer/hal_timer.h"
 #include "PE_Types.h"
 
@@ -26,8 +28,9 @@ task_init(void)
     led_task_init();
     can_protocol_task_init();
     //task add
-    task_add(led_task,50,500);
-    task_add(can_protocol_task,10,10);
+    task_add(led_task, 500, 500);
+    task_add(can_protocol_task, 10, 10);
+//    task_add(adc_measure_task, 90, 100);
 }
 
 void

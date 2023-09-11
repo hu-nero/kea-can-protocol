@@ -15,7 +15,7 @@
 #include "Timer/hal_timer.h"
 //#include "I2c/hal_i2c.h"
 //#include "Spi/hal_spi.h"
-//#include "Adc/hal_adc.h"
+#include "Adc/hal_adc.h"
 //#include "DaisyChain/hal_daisychain.h"
 //#include "Pit/hal_pit.h"
 

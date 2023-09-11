@@ -33,6 +33,7 @@
 #include "Pins1.h"
 #include "CAN.h"
 #include "TaskTimer.h"
+#include "AD.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"

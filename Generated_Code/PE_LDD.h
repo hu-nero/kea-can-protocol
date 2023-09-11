@@ -6,7 +6,7 @@
 **     Version     : Component 01.013, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-08-29, 11:51, # CodeGen: 7
+**     Date/Time   : 2023-09-05, 11:53, # CodeGen: 7
 **
 **     Copyright : 1997 - 2015 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -58,6 +58,7 @@
 #include "Pins1.h"
 #include "CAN.h"
 #include "TaskTimer.h"
+#include "AD.h"
 
 
 /*

@@ -41,6 +41,7 @@ hal_systick_delay_us(unsigned long Nus)
     unsigned long LastSysValue;
     unsigned long LastSysCtrl;
 
+    if (Nus == 0) return;
     /* 保存当前倒计数值*/
     LastSysValue = SysTick_DEVICE->CVR;
     /* 保存当前systick的配置内容*/
@@ -70,6 +71,7 @@ hal_systick_delay_ms(unsigned long Nms)
     unsigned long LastSysValue;
     unsigned long LastSysCtrl;
 
+    if (Nms == 0) return;
     /* 保存当前倒计数值*/
     LastSysValue = SysTick_DEVICE->CVR;
     /* 保存当前systick的配置内容*/

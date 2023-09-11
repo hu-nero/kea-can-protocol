@@ -7,7 +7,7 @@
 **     Version     : Component 01.100, Driver 1.1, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-08-29, 11:51, # CodeGen: 7
+**     Date/Time   : 2023-09-05, 11:53, # CodeGen: 7
 **     Abstract    :
 **
 **     Settings    :
@@ -339,9 +339,9 @@
 **                SIM: Bus clok output                     : <Automatic>
 **              Peripheral Type SPI                        : 
 **                Custom name                              : SPI0
-**                SPI0: MISO - Master data in, slave data out: PTB4/KBI0_P12/FTM2_CH4/SPI0_MISO/ACMP1_IN2/NMI_b
+**                SPI0: MISO - Master data in, slave data out: PTE2/KBI1_P2/SPI0_MISO/PWT_IN0
 **                Direction                                : Output
-**                SPI0: MOSI - Master data out, slave data in: <Automatic>
+**                SPI0: MOSI - Master data out, slave data in: PTE1/KBI1_P1/SPI0_MOSI/I2C1_SCL
 **                Direction                                : <Automatic>
 **                SPI0: SCK - Serial clock                 : <Automatic>
 **                Direction                                : <Automatic>

@@ -21,6 +21,7 @@ typedef enum
 {
     HAL_ADC_GROUP_0= 0,
 	HAL_ADC_GROUP_1,
+	HAL_ADC_GROUP_2,
     HAL_ADC_GROUP_MAX_NUM
 } HAL_ADC_GROUP_Id;
 
