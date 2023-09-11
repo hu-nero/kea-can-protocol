@@ -53,6 +53,7 @@
 #include "CAN.h"
 #include "TaskTimer.h"
 #include "AD.h"
+#include "WDog.h"
 #include "Events.h"
 
 #ifdef __cplusplus

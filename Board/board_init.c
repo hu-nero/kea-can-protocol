@@ -15,8 +15,6 @@ board_init(void)
     hal_systick_init();
     //gpio init
     hal_gpio_init();
-    //timer init
-    hal_timer_init(HAL_DEV_TIM0);
     //can init
     hal_can_init(eCanPort_0);
     //adc init

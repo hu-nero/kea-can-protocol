@@ -55,6 +55,12 @@ extern "C" {
 void Cpu_OnNMI(void)
 {
   /* Write your code here ... */
+	#if CPU_NMI_PIN
+	SIM_SOPT0 |= (uint32_t)SIM_SOPT0_NMIE_MASK; /* Enable NMI pin */
+	#else
+	SIM_SOPT0 &= (uint32_t)~(uint32_t)SIM_SOPT0_NMIE_MASK; /* Disable NMI pin */
+	#endif /* CPU_NMI_PIN */
+	__EI();
 }
 
 

@@ -56,6 +56,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Spi&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Adc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Crc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/WDog&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/Devices&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Pit&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Task&quot;"/>
@@ -82,6 +83,7 @@
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Spi&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Adc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Crc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/WDog&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/Devices&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Hal/Pit&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Task&quot;"/>
@@ -134,7 +136,7 @@
 					</folderInfo>
 					<fileInfo id="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511..settings/com.freescale.processorexpert.core.prefs" name="com.freescale.processorexpert.core.prefs" rcbsApplicability="disable" resourcePath=".settings/com.freescale.processorexpert.core.prefs" toolsToInvoke=""/>
 					<sourceEntries>
-						<entry excluding="Sources/Devices|Hal/Spi|Hal/Pit|Hal/I2c|Hal/DaisyChain|.settings/com.freescale.processorexpert.core.prefs" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Sources/Devices|.settings/com.freescale.processorexpert.core.prefs|Hal/DaisyChain|Hal/Pit|Hal/I2c|Hal/Spi" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

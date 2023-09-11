@@ -5,6 +5,7 @@
  *      Author: xinlei.hu
  */
 #include "task.h"
+#include "WDog/task_wdog.h"
 #include "Led/task_led.h"
 #include "Can_Protocol/task_can_protocol.h"
 #include "Cp_Simulate/task_cp_simulate.h"
@@ -24,41 +25,56 @@ task_init(void)
 {
 	//task tick timer callback func set
     hal_timer0_callback_set(task_timer_callback);
+    //timer init
+    hal_timer_init(HAL_DEV_TIM0);
     //task init
+    wdog_task_init();
     led_task_init();
     can_protocol_task_init();
     //task add
-    task_add(led_task, 500, 500);
-    task_add(can_protocol_task, 10, 10);
-//    task_add(adc_measure_task, 90, 100);
+    task_add(wdog_task, 5, 500, TASK_MAX_TIMES);
+    task_add(led_task, 50, 500, TASK_MAX_TIMES);
+    task_add(can_protocol_task, 10, 10, TASK_MAX_TIMES);
 }
 
 void
 task_run(void)
 {
-   uint8_t u8TaskId;
+    uint8_t u8TaskId;
 
-   // Go through the task array
-   for (u8TaskId = 0; u8TaskId < MAX_TASKS_SIZE; u8TaskId++)
-   {
-      // Check if there is a task at this location
-      if (gTaskMain[u8TaskId].pTask != NULL)
-      {
-         if (gTaskMain[u8TaskId].taskTick == 0)
-         {
-            gTaskCurId = u8TaskId;
-            // All tasks are periodic: schedule task to run again
-            gTaskMain[u8TaskId].taskTick = gTaskMain[u8TaskId].taskPeriod;
-            (*gTaskMain[u8TaskId].pTask)(); // Run the task
-         }
-      }
-   }
+    // Go through the task array
+    for (u8TaskId = 0; u8TaskId < MAX_TASKS_SIZE; u8TaskId++)
+    {
+        // Check if there is a task at this location
+        if (gTaskMain[u8TaskId].pTask != NULL)
+        {
+            //执行任务
+            if (gTaskMain[u8TaskId].taskTick == 0)
+            {
+                gTaskCurId = u8TaskId;
+                // All tasks are periodic: schedule task to run again
+                gTaskMain[u8TaskId].taskTick = gTaskMain[u8TaskId].taskPeriod;
+                (*gTaskMain[u8TaskId].pTask)(); // Run the task
+
+
+                //更新执行次数
+                if(gTaskMain[u8TaskId].taskTimes != TASK_MAX_TIMES) //任务定时器
+                    gTaskMain[u8TaskId].taskTimes--;
+                //删除任务
+                if (gTaskMain[u8TaskId].taskTimes == 0)
+                {
+                    task_delete(gTaskMain[u8TaskId].pTask);
+                }
+            }
+        }
+    }
 }
 
 void
 task_add(uint16_t (*PTask)(),
         const uint32_t Tick,
-        const uint32_t Period)
+        const uint32_t Period,
+        const uint32_t Times)
 {
      uint32_t u32TaskId = 0;
 
@@ -77,6 +93,7 @@ task_add(uint16_t (*PTask)(),
       gTaskMain[u32TaskId].pTask = PTask;
       gTaskMain[u32TaskId].taskTick = Tick + 1;
       gTaskMain[u32TaskId].taskPeriod = Period;
+      gTaskMain[u32TaskId].taskTimes = Times;
    }
 }
 

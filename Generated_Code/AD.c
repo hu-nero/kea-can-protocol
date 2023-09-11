@@ -7,7 +7,7 @@
 **     Version     : Component 01.183, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-09-05, 18:04, # CodeGen: 11
+**     Date/Time   : 2023-09-11, 11:33, # CodeGen: 7
 **     Abstract    :
 **         This device "ADC_LDD" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.

@@ -39,7 +39,6 @@ uint16_t
 can_protocol_task(void)
 {
     //(void)CAN_FIFO_Write(0, &gTsCanFrame);
-#if 1
     //½âÎöCAN±¨ÎÄ
     uint16_t res = 0;
     if ((gTsCanFramePtr = hal_can_rx_queue_de()) != NULL)
@@ -247,5 +246,5 @@ can_protocol_task(void)
             default:break;
         }
     }
-#endif
 }
+
