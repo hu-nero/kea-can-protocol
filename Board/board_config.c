@@ -6,6 +6,6 @@
  */
 #include "board_config.h"
 
-uint8_t SoftsVer[] = "HC03-DUT-V1.00";//[10]:1;    [12]:0      [13]:9
+uint8_t SoftsVer[] = "HC03-MSW-V2.00";//[10]:1;    [12]:0      [13]:9
 
 

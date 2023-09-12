@@ -96,7 +96,6 @@ can_protocol_task(void)
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CHCTRUL_OFFSET], &doubleWordPara.u8Data, sizeof(DoubleWordUnion)-1);
-                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CHMASK_OFFSET], &doubleWordChMask.u8Data, sizeof(DoubleWordUnion)-1);
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
                                 //operation success
@@ -107,7 +106,6 @@ can_protocol_task(void)
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CHCTRUL_OFFSET], &doubleWordPara.u8Data, sizeof(DoubleWordUnion)-1);
-                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CHMASK_OFFSET], &doubleWordChMask.u8Data, sizeof(DoubleWordUnion)-1);
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
                             }
