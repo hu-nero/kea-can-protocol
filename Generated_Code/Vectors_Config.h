@@ -54,6 +54,8 @@
 #include "TaskTimer.h"
 #include "AD.h"
 #include "WDog.h"
+#include "CP_TIM.h"
+#include "CP_PWM.h"
 #include "Events.h"
 
 #ifdef __cplusplus

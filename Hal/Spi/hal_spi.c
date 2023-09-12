@@ -65,7 +65,7 @@ hal_spi_init(uint8_t Id, HAL_GPIO_PORT_Type CsPort, HAL_GPIO_PIN_Type CsPin)
                     return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     return 0;
 }
@@ -101,7 +101,7 @@ hal_spi_deinit(uint8_t Id)
         case HAL_DEV_SPI1:
             SM1_Deinit(NULL);
             break;
-        default:break;
+        default:return 1;
     }
     return 0;
 }

@@ -14,6 +14,7 @@
 #include "SysTick/hal_systick.h"
 #include "Gpio/hal_gpio.h"
 #include "Timer/hal_timer.h"
+#include "Ftm/hal_ftm_pwm.h"
 #include "Adc/hal_adc.h"
 //#include "I2c/hal_i2c.h"
 //#include "Spi/hal_spi.h"

@@ -37,6 +37,10 @@
 #define CAN_PROTOCOL_HSD_2_CURRENT_OFFSET          2u
 #define CAN_PROTOCOL_HSD_3_CURRENT_OFFSET          3u
 
+#define CAN_PROTOCOL_CP_DUTY_OFFSET                0u
+#define CAN_PROTOCOL_CP_FREQ_OFFSET                1u
+#define CAN_PROTOCOL_CP_MASK_OFFSET                3u
+
 typedef enum
 {
     CAN_PROTOCOL_ID_REQUEST = 0x1C00B001,

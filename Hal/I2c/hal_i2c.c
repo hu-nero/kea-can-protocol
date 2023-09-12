@@ -39,7 +39,7 @@ hal_i2c_init(HAL_I2C_CLIENT_Struct *Client)
                     return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     return 0;
 }
@@ -61,7 +61,7 @@ hal_i2c_deinit(HAL_I2C_CLIENT_Struct *Client)
         case HAL_DEV_I2C1:
             CI2C1_Deinit(NULL);
             break;
-        default:break;
+        default:return 1;
     }
     return 0;
 }

@@ -60,7 +60,7 @@ void Cpu_OnNMI(void)
 	#else
 	SIM_SOPT0 &= (uint32_t)~(uint32_t)SIM_SOPT0_NMIE_MASK; /* Disable NMI pin */
 	#endif /* CPU_NMI_PIN */
-	__EI();
+
 }
 
 

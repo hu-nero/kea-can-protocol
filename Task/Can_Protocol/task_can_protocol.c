@@ -9,6 +9,7 @@
 #include "Hal.h"
 #include "board_config.h"
 #include "board_pin_config.h"
+#include "services.h"
 
 #include "Cp_Simulate/task_cp_simulate.h"
 #include "Adc_Measure/task_adc_measure.h"
@@ -27,6 +28,7 @@ can_protocol_task_init(void)
     board_pin_input_di_init();
     board_pin_ntc_io_init();
     board_pin_cc_io_init();
+    hal_ftm_pwm_init(HAL_DEV_FTM2);
     //CAN send buffer
     gTsCanFrame.id = CAN_PROTOCOL_ID_RESPONSE;
     gTsCanFrame.dlc = 8;
@@ -77,7 +79,7 @@ can_protocol_task(void)
                                 if (res)
                                 {
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_RESET;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_SWITCH_OUTPUT_CTRL;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SWITCH_OUTPUTCTRL_OFFSET] = doubleWordTmp.u8Data[0];
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
@@ -86,7 +88,7 @@ can_protocol_task(void)
                                 {
                                 	gu8SwitchOutputCtrlIOState = doubleWordTmp.u8Data[0];
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_RESET;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_SWITCH_OUTPUT_CTRL;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SWITCH_OUTPUTCTRL_OFFSET] = doubleWordTmp.u8Data[0];
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
@@ -154,6 +156,28 @@ can_protocol_task(void)
                             {
                                 //TODO
                                 //FTM PWM func
+                                uint8_t u8RealCPDuty;
+                                uint8_t u8CPDuty = gTsCanFramePtr->data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CP_DUTY_OFFSET]; 
+                                SingleWordUnion singleWordCPFreq,singleWordRealCPFreq;
+                                memcpy(singleWordCPFreq.u8Data, &gTsCanFramePtr->data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CP_FREQ_OFFSET], sizeof(SingleWordUnion));
+                                res = cp_service_ctrl(u8CPDuty, singleWordCPFreq.u16Data,
+                                        gTsCanFramePtr->data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CP_MASK_OFFSET], &u8RealCPDuty, &singleWordRealCPFreq.u16Data);
+                                if (res)
+                                {
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_SIMULATION;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                }
+                                else
+                                {
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_CP_SIMULATION;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CP_DUTY_OFFSET] = u8RealCPDuty;
+                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_CP_FREQ_OFFSET], &singleWordRealCPFreq.u8Data, sizeof(SingleWordUnion));
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                }
                             }
                             break;
                         case CAN_PROTOCOL_CMD_CP_VOL_QUERY:

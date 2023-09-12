@@ -38,6 +38,8 @@
 #include "TaskTimer.h"
 #include "AD.h"
 #include "WDog.h"
+#include "CP_TIM.h"
+#include "CP_PWM.h"
 
 #ifdef __cplusplus
 extern "C" {

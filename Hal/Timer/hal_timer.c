@@ -14,15 +14,15 @@ static uint32_t gu32TimerCounter = 0;
 static uint32_t gu32TimerRunTime = 0;
 
 /**
- * @brief :FTM timer init
+ * @brief :timer init
  *
- * @param Id :pit dev id
+ * @param Id :timer dev id
  * @return :0 is success;other is error
  */
 uint16_t
 hal_timer_init(uint8_t Id)
 {
-    //init pit timer device
+    //init timer device
     switch(Id)
     {
         case HAL_DEV_TIM0:
@@ -34,24 +34,24 @@ hal_timer_init(uint8_t Id)
             break;
         case HAL_DEV_TIM1:
             {
-                    return 2;
+                return 2;
             }
             break;
-        default:break;
+        default:return 3;
     }
     return 0;
 }
 
 
 /**
- * @brief :deinit pit
+ * @brief :deinit timer
  *
  * @return :0 is success,1 is error
  */
 uint16_t
 hal_timer_deinit(uint8_t Id)
 {
-    //init i2c device
+    //init timer device
     switch(Id)
     {
         case HAL_DEV_TIM0:
@@ -62,15 +62,15 @@ hal_timer_deinit(uint8_t Id)
                 return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     return 0;
 }
 
 /**
- * @brief :enable pit
+ * @brief :enable timer
  *
- * @param Id :pit id
+ * @param Id :timer id
  *
  * @return :0 is success
  */
@@ -89,15 +89,15 @@ hal_timer_enable(uint8_t Id)
                 return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     return 0;
 }
 
 /**
- * @brief :disable pit
+ * @brief :disable timer
  *
- * @param Id :pit id
+ * @param Id :timer id
  *
  * @return :0 is success
  */
@@ -116,7 +116,7 @@ hal_timer_disable(uint8_t Id)
                 return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     return 0;
 }
@@ -124,7 +124,7 @@ hal_timer_disable(uint8_t Id)
 /**
  * @brief :set timing time
  *
- * @param Id :pit id
+ * @param Id :timer id
  * @param TimeUs :timeus is timing time
  *
  * @return :0 is set success;other is failed
@@ -146,7 +146,7 @@ hal_timer_timeus_set(uint8_t Id, uint16_t TimeUs)
                 return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     return 0;
 }
@@ -154,7 +154,7 @@ hal_timer_timeus_set(uint8_t Id, uint16_t TimeUs)
 /**
  * @brief :get timing time
  *
- * @param Id :pit id
+ * @param Id :timer id
  * @param TimeUs :timeus is timing time
  *
  * @return :0 is set success;other is failed
@@ -175,7 +175,7 @@ hal_timer_timeus_get(uint8_t Id, uint16_t *TimeUs)
                 return 1;
             }
             break;
-        default:break;
+        default:return 2;
     }
     *TimeUs = u32Tick*0.05;
     return 0;
