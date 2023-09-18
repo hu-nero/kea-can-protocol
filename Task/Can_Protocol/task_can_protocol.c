@@ -12,11 +12,11 @@
 
 TsCanFrame gTsCanFrame = {};
 static TsCanFrame *gTsCanFramePtr = NULL;
-static uint8_t gu8Channal = 0xFF;
-
-static uint16_t can_protocol_task_ch_assignctrls(uint8_t PreCh, uint8_t CurCh);
-static uint16_t can_protocol_task_single_ch_assignctrl(uint8_t Ch, uint8_t Value);
-static uint16_t can_protocol_task_single_ch_read(uint8_t Ch, uint32_t *Value);
+//static uint8_t gu8Channal = 0xFF;
+//
+//static uint16_t can_protocol_task_ch_assignctrls(uint8_t PreCh, uint8_t CurCh);
+//static uint16_t can_protocol_task_single_ch_assignctrl(uint8_t Ch, uint8_t Value);
+//static uint16_t can_protocol_task_single_ch_read(uint8_t Ch, uint32_t *Value);
 
 void
 can_protocol_task_init(void)
@@ -33,7 +33,6 @@ uint16_t
 can_protocol_task(void)
 {
     //½âÎöCAN±¨ÎÄ
-    uint8_t res = 0;
     if ((gTsCanFramePtr = hal_can_rx_queue_de()) != NULL)
     {
         memset(gTsCanFrame.data, 0, 8);
