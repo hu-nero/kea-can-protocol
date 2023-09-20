@@ -20,6 +20,8 @@ typedef enum
 } SERVICE_CP_SIMULATE_Enum;
 
 
+extern void cp_service_init(void);
+extern void cp_service_reset(void);
 extern uint16_t cp_service_ctrl(uint8_t Duty, uint16_t Freq, uint8_t Mask, uint8_t *RealDuty, uint16_t *RealFreq);
 
 #endif /* SERVICES_CP_SERVICE_CP_H_ */

@@ -87,15 +87,6 @@ typedef enum
     BOARD_PIN_SWITCH_CTRL_DO_IO_1 = 5
 } BOARD_PIN_SWITCH_CTRL_STRUCT_Enum;
 
-extern void board_pin_ntc_io_init(void);
-extern void board_pin_cc_io_init(void);
-extern void board_pin_switch_output_ctrl_init(void);
-extern void board_pin_input_di_init(void);
-
-extern uint16_t board_pin_switch_output_ctrl(uint8_t BitState, uint8_t Mask, uint32_t *Value);
-extern uint16_t board_pin_ntc_r_ctrl(uint16_t NTC_R, uint8_t Ch, uint16_t *RValue, uint8_t *ChState);
-extern uint16_t board_pin_cc_r_ctrl(uint16_t CC_R, uint8_t CC2, uint8_t Mask, uint16_t *RValue, uint8_t *CC2State);
-extern uint16_t board_pin_di_read(uint32_t *DI_0, uint32_t *DI_1);
 #endif /* BOARD_BOARD_PIN_CONFIG_H_ */
 
 

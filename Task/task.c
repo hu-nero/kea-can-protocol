@@ -30,10 +30,12 @@ task_init(void)
     //task init
     wdog_task_init();
     led_task_init();
+    adc_measure_task_init();
     can_protocol_task_init();
     //task add
     task_add(wdog_task, 5, 500, TASK_MAX_TIMES);
     task_add(led_task, 50, 500, TASK_MAX_TIMES);
+    task_add(adc_measure_task, 100, 500, TASK_MAX_TIMES);
     task_add(can_protocol_task, 10, 10, TASK_MAX_TIMES);
 }
 

@@ -41,6 +41,7 @@ extern uint16_t hal_adc_init(HAL_DEV_ADC_Id Id);
  */
 extern uint16_t hal_adc_deinit(HAL_DEV_ADC_Id Id);
 
+extern uint16_t hal_adc_operation_mode_set(void);
 /**
  * @brief :start a group conversion
  *

@@ -7,7 +7,7 @@
 **     Version     : Component 01.183, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-09-11, 11:33, # CodeGen: 7
+**     Date/Time   : 2023-09-18, 09:13, # CodeGen: 17
 **     Abstract    :
 **         This device "ADC_LDD" implements an A/D converter,
 **         its control methods and interrupt/event handling procedure.
@@ -19,7 +19,7 @@
 **            A/D interrupt                                : INT_ADC0
 **            A/D interrupt priority                       : medium priority
 **            ISR Name                                     : AD_MeasurementCompleteInterrupt
-**          A/D channel list                               : 9
+**          A/D channel list                               : 10
 **            Channel 0                                    : 
 **              Channel mode                               : Single Ended
 **                Input                                    : 
@@ -56,12 +56,18 @@
 **              Channel mode                               : Single Ended
 **                Input                                    : 
 **                  A/D channel (pin)                      : PTB2/KBI0_P10/SPI0_SCK/FTM0_CH0/ADC0_SE6
+**            Channel 9                                    : 
+**              Channel mode                               : Single Ended
+**                Input                                    : 
+**                  A/D channel (pin)                      : PTA0/KBI0_P0/FTM0_CH0/I2C0_4WSCLOUT/ACMP0_IN0/ADC0_SE0
 **          Static sample groups                           : Enabled
 **            Sample group list                            : 3
 **              Group 0                                    : 
-**                Sample list                              : 1
+**                Sample list                              : 2
 **                  Sample 0                               : Enabled
 **                    Channel index                        : 0
+**                  Sample 1                               : Enabled
+**                    Channel index                        : 9
 **              Group 1                                    : 
 **                Sample list                              : 4
 **                  Sample 0                               : Enabled
@@ -123,6 +129,7 @@
 **         SelectSampleGroup            - LDD_TError AD_SelectSampleGroup(LDD_TDeviceData *DeviceDataPtr, uint8_t...
 **         CreateSampleGroup            - LDD_TError AD_CreateSampleGroup(LDD_TDeviceData *DeviceDataPtr,...
 **         GetMeasurementCompleteStatus - bool AD_GetMeasurementCompleteStatus(LDD_TDeviceData *DeviceDataPtr);
+**         SetOperationMode             - LDD_TError AD_SetOperationMode(LDD_TDeviceData *DeviceDataPtr,...
 **
 **     Copyright : 1997 - 2015 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -177,7 +184,7 @@
 extern "C" { 
 #endif
 
-#define AD_AVAILABLE_CHANNEL0_31_PIN_MASK (LDD_ADC_CHANNEL_0_PIN | LDD_ADC_CHANNEL_1_PIN | LDD_ADC_CHANNEL_2_PIN | LDD_ADC_CHANNEL_3_PIN | LDD_ADC_CHANNEL_4_PIN | LDD_ADC_CHANNEL_5_PIN | LDD_ADC_CHANNEL_6_PIN | LDD_ADC_CHANNEL_7_PIN | LDD_ADC_CHANNEL_8_PIN) /*!< Mask of all allocated channel pins from 0 to 31 */
+#define AD_AVAILABLE_CHANNEL0_31_PIN_MASK (LDD_ADC_CHANNEL_0_PIN | LDD_ADC_CHANNEL_1_PIN | LDD_ADC_CHANNEL_2_PIN | LDD_ADC_CHANNEL_3_PIN | LDD_ADC_CHANNEL_4_PIN | LDD_ADC_CHANNEL_5_PIN | LDD_ADC_CHANNEL_6_PIN | LDD_ADC_CHANNEL_7_PIN | LDD_ADC_CHANNEL_8_PIN | LDD_ADC_CHANNEL_9_PIN) /*!< Mask of all allocated channel pins from 0 to 31 */
 #define AD_AVAILABLE_CHANNEL32_63_PIN_MASK 0x00U /*!< Mask of all allocated channel pins from 32 to 63 */
 #define AD_AVAILABLE_TRIGGER_PIN_MASK 0x00U /*!< Mask of all allocated trigger pins */
 #define AD_AVAILABLE_VOLT_REF_PIN_MASK (LDD_ADC_LOW_VOLT_REF_PIN | LDD_ADC_HIGH_VOLT_REF_PIN) /*!< Mask of all allocated voltage reference pins */
@@ -200,7 +207,9 @@ static const uint8_t ChannelToPin[] = { /* Channel to pin conversion table */
   /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,ADCO=0,ADCH=7 */
   0x47U,                               /* Status and control register value */
   /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,ADCO=0,ADCH=6 */
-  0x46U                                /* Status and control register value */
+  0x46U,                               /* Status and control register value */
+  /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,ADCO=0,ADCH=0 */
+  0x40U                                /* Status and control register value */
 };
 
 typedef struct {
@@ -210,12 +219,12 @@ typedef struct {
 
 static const TStaticSampleGroup StaticSampleGroups[AD_STATIC_GROUP_COUNT] = {
   { /* Static sample group 0 */
-    1U,                                /* Sample count */
+    2U,                                /* Sample count */
     {
-      /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,ADCO=0,ADCH=0x0A */
-      0x4AU,
-      /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=0,ADCO=0,ADCH=0x1F */
-      0x1FU,
+      /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=0,ADCO=0,ADCH=0x0A */
+      0x0AU,
+      /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=1,ADCO=0,ADCH=0 */
+      0x40U,
       /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=0,ADCO=0,ADCH=0x1F */
       0x1FU,
       /* ADC_SC1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,COCO=0,AIEN=0,ADCO=0,ADCH=0x1F */
@@ -276,6 +285,10 @@ static const TStaticSampleGroup StaticSampleGroups[AD_STATIC_GROUP_COUNT] = {
 
 typedef struct {
   uint8_t CompleteStatus;              /* Measurement complete status flag */
+  LDD_TDriverOperationMode CurrentOperationMode; /* Current operation mode */
+  LDD_TDriverOperationMode OperationMode; /* Requested operation mode to change */
+  LDD_TCallback ModeChangeCallback;    /* Operation mode callback */
+  LDD_TCallbackParam *ModeChangeCallbackParamPtr; /* Operation mode callback parameter */
   LDD_TUserData *UserData;             /* RTOS device data structure */
   uint16_t IntBuffer[AD_MAX_HW_SAMPLE_COUNT]; /* Internal buffer for storing the results */
   TStaticSampleGroup *GroupPtr;        /* Pointer to actual sample group address */
@@ -327,6 +340,10 @@ LDD_TDeviceData* AD_Init(LDD_TUserData *UserDataPtr)
   /* {Default RTOS Adapter} Set interrupt vector: IVT is static, ISR parameter is passed by the global variable */
   INT_ADC0__DEFAULT_RTOS_ISRPARAM = DeviceDataPrv;
   DeviceDataPrv->CompleteStatus = FALSE; /* Clear measurement complete status flag */
+  DeviceDataPrv->CurrentOperationMode = DOM_RUN; /* To start in RUN mode  */
+  DeviceDataPrv->OperationMode = DOM_NONE; /* No request to change the operation mode is pending */
+  DeviceDataPrv->ModeChangeCallback = NULL; /* Clear the pointer to the callback  */
+  DeviceDataPrv->ModeChangeCallbackParamPtr = NULL; /* Clear the pointer to the callback parameter */
   /* SIM_SCGC: ADC=1 */
   SIM_SCGC |= SIM_SCGC_ADC_MASK;
   /* Interrupt vector(s) priority setting */
@@ -346,8 +363,8 @@ LDD_TDeviceData* AD_Init(LDD_TUserData *UserDataPtr)
   /* Initialization of pin routing */
   /* ADC_SC2: REFSEL=0 */
   ADC_SC2 &= (uint32_t)~(uint32_t)(ADC_SC2_REFSEL(0x03));
-  /* ADC_APCTL1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,ADPC=0xF7C0 */
-  ADC_APCTL1 = ADC_APCTL1_ADPC(0xF7C0);
+  /* ADC_APCTL1: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,ADPC=0xF7C1 */
+  ADC_APCTL1 = ADC_APCTL1_ADPC(0xF7C1);
   /* ADC_SC3: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,ADLPC=0,ADIV=2,ADLSMP=0,MODE=2,ADICLK=0 */
   ADC_SC3 = (ADC_SC3_ADIV(0x02) | ADC_SC3_MODE(0x02) | ADC_SC3_ADICLK(0x00));
   /* ADC_SC2: ??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,??=0,ADACT=0,ADTRG=0,ACFE=0,ACFGT=0,FEMPTY=0,FFULL=0,REFSEL=0 */
@@ -743,6 +760,123 @@ PE_ISR(AD_MeasurementCompleteInterrupt)
     DeviceDataPrv->IntBuffer[Sample] = ADC_PDD_GetResultValueRaw(ADC_BASE_PTR, 0U); /* Read out results to the internal buffer. First read clear conversion complete flag */
   }
   AD_OnMeasurementComplete(DeviceDataPrv->UserData);
+  if (DeviceDataPrv->OperationMode != DOM_NONE) {
+    if ((ADC_PDD_GetConversionActiveFlag(ADC_BASE_PTR) == 0U)) { /* Has driver completed all pending jobs? */
+      (void)AD_SetOperationMode(DeviceDataPrv, DeviceDataPrv->OperationMode, DeviceDataPrv->ModeChangeCallback, DeviceDataPrv->ModeChangeCallbackParamPtr); /* Invoke a callback */
+    }
+  }
+}
+
+/*
+** ===================================================================
+**     Method      :  AD_SetOperationMode (component ADC_LDD)
+*/
+/*!
+**     @brief
+**         This method requests to change the component's operation
+**         mode. Upon a request to change the operation mode, the
+**         component will finish a pending job first and then notify a
+**         caller that an operation mode has been changed. When no job
+**         is pending (ERR_OK), the component changes an operation mode
+**         immediately and notifies a caller about this change. 
+**     @param
+**         DeviceDataPtr   - Device data structure
+**                           pointer returned by [Init] method.
+**     @param
+**         OperationMode   - Requested driver
+**                           operation mode.
+**     @param
+**         ModeChangeCallback - Callback to
+**                           notify the upper layer once a mode has been
+**                           changed.
+**     @param
+**         ModeChangeCallbackParamPtr 
+**                           - Pointer to callback parameter to notify
+**                           the upper layer once a mode has been
+**                           changed.
+**     @return
+**                         - Error code, possible codes: ERR_OK - The
+**                           change operation mode request has been
+**                           accepted, callback will notify an
+**                           application as soon as the mode is changed.
+**                           ERR_SPEED - The component does not work in
+**                           the active clock configuration.
+**                           ERR_DISABLED - This component is disabled
+**                           by user. ERR_PARAM_MODE - Invalid operation
+**                           mode. ERR_FAILED - Job is running and the
+**                           driver can't cancel the job by itself (job
+**                           has no implicit termination, explicit
+**                           cancelation is needed). The driver has
+**                           rejected the change operation mode request.
+**                           This error is returned if continuous job is
+**                           running. Such job can be started by
+**                           [StartLoopMeasurement] or
+**                           [StartLoopTriggeredMeasurement] method and
+**                           it can be canceled by [CancelMeasurement]
+**                           method. After the termination, this
+**                           [SetOperationMode] method performs the
+**                           operation mode change. ERR_BUSY - Job is
+**                           running and the driver can't detect job end
+**                           by itself. The end of the job can be
+**                           detected by method [GetDriverState]. This
+**                           error is returned if single job is running
+**                           and [Interrupt service/event] is disabled.
+**                           Such job can be started by
+**                           [StartSingleMeasurement] method.
+*/
+/* ===================================================================*/
+LDD_TError AD_SetOperationMode(LDD_TDeviceData *DeviceDataPtr, LDD_TDriverOperationMode OperationMode, LDD_TCallback ModeChangeCallback, LDD_TCallbackParam *ModeChangeCallbackParamPtr)
+{
+  AD_TDeviceDataPtr DeviceDataPrv = (AD_TDeviceDataPtr)DeviceDataPtr;
+
+  if (((AD_TDeviceDataPtr)DeviceDataPtr)->CurrentOperationMode != DOM_STOP) {
+    if (ADC_PDD_GetConversionActiveFlag(ADC_BASE_PTR) != 0U) { /* Is measurement in progress? */
+      if (ADC_PDD_GetContinuousMode(ADC_BASE_PTR) != 0U) { /* Is SW loop measurement in progress? */
+        return ERR_FAILED;             /* Yes, return ERR_FAILED */
+      }
+    }
+    /* {Default RTOS Adapter} Critical section begin, general PE function is used */
+    EnterCritical();
+    if (ADC_PDD_GetConversionActiveFlag(ADC_BASE_PTR) != 0U) { /* Is measurement in progress? */
+      DeviceDataPrv->OperationMode = OperationMode; /* Set requested operation mode to change */
+      DeviceDataPrv->ModeChangeCallback = ModeChangeCallback; /* Set callback pointer to notify after mode change */
+      DeviceDataPrv->ModeChangeCallbackParamPtr = ModeChangeCallbackParamPtr; /* Set callback parameter */
+      /* {Default RTOS Adapter} Critical section end, general PE function is used */
+      ExitCritical();
+      return ERR_OK;
+    }
+    /* {Default RTOS Adapter} Critical section end, general PE function is used */
+    ExitCritical();
+  }
+  switch (OperationMode) {
+    case DOM_RUN:
+      #if defined(SIM_PDD_CLOCK_GATE_ADC)
+      SIM_PDD_SetClockGate(SIM_BASE_PTR, SIM_PDD_CLOCK_GATE_ADC, PDD_ENABLE);
+      #endif
+      break;
+    case DOM_WAIT:
+    case DOM_SLEEP:
+      break;
+    case DOM_STOP:
+      ADC_PDD_SetConversionTriggerType(ADC_BASE_PTR, ADC_PDD_SW_TRIGGER); /* Select SW triggering */
+      ADC_PDD_WriteStatusControl1Reg(ADC_BASE_PTR, 0U, 0x1FU); /* Disable device */
+      #if defined(SIM_PDD_CLOCK_GATE_ADC)
+      SIM_PDD_SetClockGate(SIM_BASE_PTR, SIM_PDD_CLOCK_GATE_ADC, PDD_DISABLE);
+      #endif
+      break;
+    default:
+      /* Operation mode test - this test can be disabled by setting the "Ignore range checking"
+         property to the "yes" value in the "Configuration inspector" */
+      return ERR_PARAM_MODE;           /* Invalid Operationmode parameter */
+  }
+  DeviceDataPrv->CurrentOperationMode = OperationMode; /* Store current operation mode */
+  if (ModeChangeCallback != NULL) {
+    ModeChangeCallback(ModeChangeCallbackParamPtr); /* Invoke a callback */
+    DeviceDataPrv->OperationMode = DOM_NONE; /* No request to change the operation mode is pending */
+    DeviceDataPrv->ModeChangeCallback = NULL; /* Clear the pointer to the callback  */
+    DeviceDataPrv->ModeChangeCallbackParamPtr = NULL; /* Clear the pointer to the callback parameter */
+  }
+  return ERR_OK;
 }
 
 /* END AD. */

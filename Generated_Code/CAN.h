@@ -7,7 +7,7 @@
 **     Version     : Component 01.112, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-09-11, 11:33, # CodeGen: 7
+**     Date/Time   : 2023-09-12, 16:42, # CodeGen: 7
 **     Abstract    :
 **         This component "CAN_LDD" implements a CAN serial channel.
 **     Settings    :
@@ -32,9 +32,9 @@
 **          Settings                                       : 
 **            Pins                                         : 
 **              Rx pin                                     : 
-**                Rx pin                                   : PTH2/KBI1_P26/BUSOUT/FTM1_CH0/CAN0_RX
+**                Rx pin                                   : PTC6/KBI0_P22/UART1_RX/CAN0_RX
 **              Tx pin                                     : 
-**                Tx pin                                   : <Automatic>
+**                Tx pin                                   : PTC7/KBI0_P23/UART1_TX/CAN0_TX
 **            Global acceptance mask                       : no
 **            Receiver FIFO                                : Enabled
 **              ID filter acceptance mode                  : One 32-bit

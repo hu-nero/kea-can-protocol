@@ -52,6 +52,13 @@ hal_adc_deinit(HAL_DEV_ADC_Id Id)
     return 0;
 }
 
+uint16_t
+hal_adc_operation_mode_set(void)
+{
+    AD_SetOperationMode(halAdc0DevicePtr, DOM_RUN, NULL, NULL);
+    return 0;
+}
+
 /**
  * @brief :start a group conversion
  *

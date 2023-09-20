@@ -196,9 +196,16 @@ hal_ftm_pwm_period_get(uint8_t Id, uint16_t *PeriodUs)
 uint16_t
 hal_ftm_pwm_period_set(uint8_t Id, uint16_t PeriodUs)
 {
+    uint16_t res = 0;
     uint16_t u16PeriodTick = 0;
+    CP_TIM_Disable(halTIMDevicePtr);
+    CP_PWM_Disable(halPWMDevicePtr);
     u16PeriodTick = PeriodUs / HAL_FTM_CLK_CYCLE;
-    return CP_TIM_SetPeriodTicks(halTIMDevicePtr, u16PeriodTick);
+    CP_TIM_ResetCounter(halTIMDevicePtr);
+    res = CP_TIM_SetPeriodTicks(halTIMDevicePtr, u16PeriodTick);
+    CP_TIM_Enable(halTIMDevicePtr);
+    CP_PWM_Enable(halPWMDevicePtr);
+    return res;
 }
 
 /**
@@ -216,7 +223,7 @@ hal_ftm_pwm_duty_set(uint8_t Id, uint16_t Duty)
     {
         return 1;
     }
-    return CP_PWM_SetRatio16(halPWMDevicePtr, Duty * 0xFFFFu / 100);
+    return CP_PWM_SetRatio16(halPWMDevicePtr, (100 - Duty) * 0xFFFFu / 100);
 }
 
 
