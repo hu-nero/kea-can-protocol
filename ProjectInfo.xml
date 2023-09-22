@@ -53,13 +53,20 @@
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Crc\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\DaisyChain\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Ftm\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Gpio\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\I2c\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Pit\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Spi\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\SysTick\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\Timer\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Hal\WDog\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Project_Settings\Startup_Code\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Services\Cc\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Services\Cp\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Services\Di\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Services\Ntc\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Services\Switch_ctrl\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\INA226\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc_kea128\</Path>
@@ -68,29 +75,50 @@
       <Path>D:\workspace\vscode_workspace\HC03_Project\Sources\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Static_Code\Peripherals\</Path>
       <Path>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Task\Adc_Measure\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Task\Can_Protocol\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Task\Cp_Simulate\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Task\Led\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Task\WDog\</Path>
+      <Path>D:\workspace\vscode_workspace\HC03_Project\Task\</Path>
     </SourceCodePaths>
   </PATHS>
   <FILES>
     <GeneratedCs>
-      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\task_init.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\board_config.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\board_init.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\AD.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CAN.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CP_PWM.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CP_TIM.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Cpu.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\PE_LDD.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Pins1.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\TaskTimer.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\WDog.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\CP_TIM.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\GPIO.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\SS1.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Adc\hal_adc.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\can_fifo.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\hal_can.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Crc\CRC15.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\DaisyChain\hal_daisychain.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Ftm\hal_ftm_ic.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Ftm\hal_ftm_pwm.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Gpio\hal_gpio.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\I2c\hal_i2c.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Pit\hal_pit.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Spi\hal_spi.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\SysTick\hal_systick.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Timer\hal_timer.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\WDog\hal_wdog.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Project_Settings\Startup_Code\startup.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Cc\service_cc.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Cp\service_cp.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Di\service_di.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Ntc\service_ntc.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Switch_ctrl\service_switch_ctrl.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\INA226\INA226.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\bcc.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\bcc_communication.c</PathName>
@@ -104,12 +132,22 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\CPU_Init.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\Peripherals_Init.c</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\Vectors.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Adc_Measure\task_adc_measure.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Can_Protocol\task_can_protocol.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Cp_Simulate\task_cp_simulate.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Led\task_led.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\WDog\task_wdog.c</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\task.c</PathName>
     </GeneratedCs>
     <GeneratedHs>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\board_config.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\board_init.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\board_pin_config.h</PathName>
-      <PathName>D:\workspace\vscode_workspace\HC03_Project\Board\task_init.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\AD.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CAN.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CPU_Config.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CP_PWM.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\CP_TIM.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Cpu.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\IO_Map.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Init_Config.h</PathName>
@@ -122,13 +160,21 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\SysTick_Config.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\TaskTimer.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\Vectors_Config.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\WDog.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\CP_TIM.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\GPIO.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\PE_Fix_Types.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Generated_Code\drivers_fix\SS1.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Adc\hal_adc.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\basic_types.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\can_datatypes.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\can_defines.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\can_fifo.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Can\hal_can.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Crc\CRC15.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\DaisyChain\hal_daisychain.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Ftm\hal_ftm_ic.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Ftm\hal_ftm_pwm.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Gpio\hal_gpio.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Hal.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\I2c\hal_i2c.h</PathName>
@@ -136,6 +182,13 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Spi\hal_spi.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\SysTick\hal_systick.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\Timer\hal_timer.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Hal\WDog\hal_wdog.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Cc\service_cc.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Cp\service_cp.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Di\service_di.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Ntc\service_ntc.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Services.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Services\Switch_ctrl\service_switch_ctrl.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\Dev.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\INA226\INA226.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Sources\Devices\MC33771C\bcc\MC33771C.h</PathName>
@@ -178,6 +231,12 @@
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\CPU_Init.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\PDD_Includes.h</PathName>
       <PathName>D:\workspace\vscode_workspace\HC03_Project\Static_Code\System\Peripherals_Init.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Adc_Measure\task_adc_measure.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Can_Protocol\task_can_protocol.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Cp_Simulate\task_cp_simulate.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\Led\task_led.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\WDog\task_wdog.h</PathName>
+      <PathName>D:\workspace\vscode_workspace\HC03_Project\Task\task.h</PathName>
     </GeneratedHs>
   </FILES>
   <OPTIONS>
