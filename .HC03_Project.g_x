@@ -27,77 +27,77 @@
   </ToolchainSettings>
   <GeneratedFilesList>
     <GeneratedByPE>
-      <File Name="Generated_Code/Cpu.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205367" FileType="45637" CompNumb="10" />
-      <File Name="Generated_Code/WDog.c" FileDate="2023-09-28, 16:20:05" FileAge="1695889205390" FileType="45637" CompNumb="57" />
-      <File Name="Documentation/doxygen/TaskTimer_component.txt" FileDate="2023-09-08, 14:55:28" FileAge="1694156128829" FileType="45637" CompNumb="55" />
-      <File Name="Generated_Code/Cpu.c" FileDate="2023-09-28, 16:20:05" FileAge="1695889205362" FileType="45637" CompNumb="10" />
-      <File Name="Generated_Code/SysTick.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205413" FileType="45637" CompNumb="12" />
-      <File Name="Generated_Code/TaskTimer.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205404" FileType="45637" CompNumb="55" />
-      <File Name="Static_Code/PDD/WDOG_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Generated_Code/SysTick_Config.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205408" FileType="45637" CompNumb="12" />
-      <File Name="Static_Code/Peripherals/SysTick_Init.h" FileDate="2023-02-03, 14:08:43" FileAge="1675404523000" FileType="1048576" />
-      <File Name="Generated_Code/IO_Map.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205371" FileType="45637" />
-      <File Name="Generated_Code/TaskTimer.c" FileDate="2023-09-28, 16:20:05" FileAge="1695889205399" FileType="45637" CompNumb="55" />
+      <File Name="Generated_Code/Cpu.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947545" FileType="45637" CompNumb="10" />
       <File Name="Static_Code/PDD/FTM_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/Peripherals/SysTick_Init.c" FileDate="2023-02-06, 09:52:15" FileAge="1675648335000" FileType="1048576" />
-      <File Name="Static_Code/System/Peripherals_Init.h" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" />
-      <File Name="Documentation/doxygen/CAN_component.txt" FileDate="2023-09-26, 17:10:18" FileAge="1695719418738" FileType="45637" CompNumb="11" />
+      <File Name="Generated_Code/WDog.c" FileDate="2023-09-28, 16:49:07" FileAge="1695890947556" FileType="45637" CompNumb="57" />
+      <File Name="Documentation/doxygen/TaskTimer_component.txt" FileDate="2023-09-08, 14:55:28" FileAge="1694156128829" FileType="45637" CompNumb="55" />
+      <File Name="Static_Code/PDD/MSCAN_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Generated_Code/Cpu.c" FileDate="2023-09-28, 16:49:07" FileAge="1695890947545" FileType="45637" CompNumb="10" />
       <File Name="Static_Code/PDD/I2C_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/PDD/PDD_Types.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/System/Peripherals_Init.c" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" />
-      <File Name="Generated_Code/Init_Config.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205337" FileType="45637" CompNumb="10" />
-      <File Name="Documentation/doxygen/HC03_Project_project.txt" FileDate="2023-09-28, 16:17:06" FileAge="1695889026328" FileType="45637" CompNumb="10" />
-      <File Name="Generated_Code/Pins1.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205434" FileType="45637" CompNumb="3" />
+      <File Name="Generated_Code/SysTick.h" FileDate="2023-09-28, 16:49:44" FileAge="1695890984495" FileType="45637" CompNumb="12" />
+      <File Name="Generated_Code/TaskTimer.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947555" FileType="45637" CompNumb="55" />
+      <File Name="Static_Code/PDD/WDOG_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
       <File Name="Static_Code/PDD/IRQ_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Generated_Code/Pins1.c" FileDate="2023-09-28, 16:20:05" FileAge="1695889205428" FileType="45637" CompNumb="3" />
-      <File Name="Static_Code/PDD/CMP_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Documentation/doxygen/WDog_component.txt" FileDate="2023-09-11, 09:29:23" FileAge="1694395763227" FileType="45637" CompNumb="57" />
+      <File Name="Generated_Code/SysTick_Config.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947554" FileType="45637" CompNumb="12" />
+      <File Name="Generated_Code/IO_Map.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947546" FileType="45637" />
+      <File Name="Generated_Code/TaskTimer.c" FileDate="2023-09-28, 16:49:07" FileAge="1695890947554" FileType="45637" CompNumb="55" />
       <File Name="Static_Code/PDD/SCB_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Static_Code/PDD/CMP_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
       <File Name="Static_Code/PDD/SPI_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/PDD/FTMRE_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Documentation/doxygen/CAN_component.txt" FileDate="2023-09-26, 17:10:18" FileAge="1695719418738" FileType="45637" CompNumb="11" />
+      <File Name="Generated_Code/Init_Config.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947546" FileType="45637" CompNumb="10" />
+      <File Name="Documentation/doxygen/HC03_Project_project.txt" FileDate="2023-09-28, 16:17:06" FileAge="1695889026328" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/Pins1.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947552" FileType="45637" CompNumb="3" />
+      <File Name="Static_Code/System/CPU_Init.h" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" CompNumb="10" />
+      <File Name="Generated_Code/Pins1.c" FileDate="2023-09-28, 16:49:07" FileAge="1695890947552" FileType="45637" CompNumb="3" />
+      <File Name="Documentation/doxygen/WDog_component.txt" FileDate="2023-09-11, 09:29:23" FileAge="1694395763227" FileType="45637" CompNumb="57" />
+      <File Name="Static_Code/System/CPU_Init.c" FileDate="2023-06-01, 16:33:01" FileAge="1685608381869" FileType="1048576" CompNumb="10" />
+      <File Name="Static_Code/PDD/PIT_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Static_Code/System/PDD_Includes.h" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" CompNumb="10" />
+      <File Name="Documentation/HC03_Project_Settings.xml" FileDate="2023-09-28, 16:17:06" FileAge="1695889026463" FileType="3072" />
       <File Name="Static_Code/PDD/NVIC_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
       <File Name="Static_Code/PDD/GPIO_PDD.h" FileDate="2020-08-05, 08:58:42" FileAge="1596589122000" FileType="1048576" />
-      <File Name="Documentation/HC03_Project_Settings.xml" FileDate="2023-09-28, 16:17:06" FileAge="1695889026463" FileType="3072" />
       <File Name="Documentation/doxygen/pex.css" FileDate="2023-01-30, 11:00:22" FileAge="1675047622000" FileType="16384" CompNumb="10" />
-      <File Name="Static_Code/System/CPU_Init.h" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" />
-      <File Name="ProjectInfo.xml" FileDate="2023-09-28, 16:20:05" FileAge="1695889205678" FileType="45637" />
-      <File Name="Generated_Code/PE_LDD.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205352" FileType="45637" CompNumb="10" />
-      <File Name="Generated_Code/Vectors_Config.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205347" FileType="45637" CompNumb="10" />
-      <File Name="Static_Code/System/PDD_Includes.h" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" />
-      <File Name="Static_Code/System/CPU_Init.c" FileDate="2023-06-01, 16:33:01" FileAge="1685608381869" FileType="1048576" />
-      <File Name="Generated_Code/PE_LDD.c" FileDate="2023-09-28, 16:20:05" FileAge="1695889205357" FileType="45637" CompNumb="10" />
-      <File Name="Static_Code/PDD/PORT_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/PDD/PIT_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/IO_Map/SKEAZ1284.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Documentation/doxygen/SysTick_component.txt" FileDate="2023-09-08, 14:55:28" FileAge="1694156128823" FileType="45637" CompNumb="12" />
-      <File Name="Generated_Code/CAN.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205423" FileType="45637" CompNumb="11" />
-      <File Name="Static_Code/PDD/UART_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Static_Code/PDD/SysTick_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Project_Settings/Startup_Code/startup.c" FileDate="2023-09-25, 09:36:39" FileAge="1695605799818" FileType="16384" CompNumb="10" />
       <File Name="Static_Code/PDD/PWT_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Generated_Code/CAN.c" FileDate="2023-09-28, 16:20:05" FileAge="1695889205419" FileType="45637" CompNumb="11" />
-      <File Name="Static_Code/PDD/MSCAN_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Sources/Events.h" FileDate="2023-09-28, 16:16:16" FileAge="1695888976059" FileType="131328" />
-      <File Name="Generated_Code/CPU_Config.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205342" FileType="45637" CompNumb="10" />
+      <File Name="ProjectInfo.xml" FileDate="2023-09-28, 16:40:16" FileAge="1695890416128" FileType="45637" />
       <File Name="Static_Code/PDD/CRC_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Documentation/HC03_Project.txt" FileDate="2023-09-28, 16:17:06" FileAge="1695889026695" FileType="3072" />
+      <File Name="Static_Code/IO_Map/SKEAZ1284.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" CompNumb="10" />
+      <File Name="Generated_Code/PE_LDD.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947549" FileType="45637" CompNumb="10" />
+      <File Name="Static_Code/System/Peripherals_Init.h" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" CompNumb="10" />
+      <File Name="Generated_Code/Vectors_Config.h" FileDate="2023-09-28, 16:40:15" FileAge="1695890415797" FileType="45637" CompNumb="10" />
       <File Name="Static_Code/PDD/ADC_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Sources/Events.c" FileDate="2023-09-28, 16:16:16" FileAge="1695888976058" FileType="131328" />
-      <File Name="Static_Code/PDD/RTC0_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Generated_Code/PE_LDD.c" FileDate="2023-09-28, 16:49:07" FileAge="1695890947549" FileType="45637" CompNumb="10" />
+      <File Name="Static_Code/System/Peripherals_Init.c" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" CompNumb="10" />
+      <File Name="Static_Code/PDD/PDD_Types.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" CompNumb="10" />
+      <File Name="Static_Code/PDD/PORT_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Documentation/doxygen/SysTick_component.txt" FileDate="2023-09-08, 14:55:28" FileAge="1694156128823" FileType="45637" CompNumb="12" />
       <File Name="Static_Code/PDD/MCM_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Project_Settings/Linker_Files/ProcessorExpert.ld" FileDate="2023-09-25, 09:37:12" FileAge="1695605832991" FileType="8" CompNumb="10" />
-      <File Name="Static_Code/PDD/SIM_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Documentation/doxygen/pex.doxyfile" FileDate="2023-08-28, 16:08:14" FileAge="1693210094196" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/CAN.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947543" FileType="45637" CompNumb="11" />
       <File Name="Static_Code/PDD/PMC_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Static_Code/PDD/SIM_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Static_Code/PDD/UART_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Static_Code/Peripherals/SysTick_Init.h" FileDate="2023-02-03, 14:08:43" FileAge="1675404523000" FileType="1048576" CompNumb="12" />
+      <File Name="Project_Settings/Startup_Code/startup.c" FileDate="2023-09-25, 09:36:39" FileAge="1695605799818" FileType="16384" CompNumb="10" />
+      <File Name="Static_Code/PDD/SysTick_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" CompNumb="12" />
       <File Name="Static_Code/PDD/KBI_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
-      <File Name="Generated_Code/PE_Const.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205375" FileType="45637" />
-      <File Name="Static_Code/System/Vectors.c" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" />
-      <File Name="Generated_Code/PE_Types.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205385" FileType="45637" />
+      <File Name="Generated_Code/CAN.c" FileDate="2023-09-28, 16:49:07" FileAge="1695890947542" FileType="45637" CompNumb="11" />
+      <File Name="Generated_Code/CPU_Config.h" FileDate="2023-09-28, 16:49:43" FileAge="1695890983813" FileType="45637" CompNumb="10" />
+      <File Name="Sources/Events.h" FileDate="2023-09-28, 16:16:16" FileAge="1695888976059" FileType="131328" />
+      <File Name="Static_Code/Peripherals/SysTick_Init.c" FileDate="2023-02-06, 09:52:15" FileAge="1675648335000" FileType="1048576" CompNumb="12" />
+      <File Name="Documentation/HC03_Project.txt" FileDate="2023-09-28, 16:17:06" FileAge="1695889026695" FileType="3072" />
+      <File Name="Static_Code/PDD/FTMRE_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Sources/Events.c" FileDate="2023-09-28, 16:16:16" FileAge="1695888976058" FileType="131328" />
+      <File Name="Static_Code/System/Vectors.c" FileDate="2023-01-30, 16:06:54" FileAge="1675066014000" FileType="1048576" CompNumb="10" />
+      <File Name="Static_Code/PDD/RTC0_PDD.h" FileDate="2023-01-30, 11:00:23" FileAge="1675047623000" FileType="1048576" />
+      <File Name="Project_Settings/Linker_Files/ProcessorExpert.ld" FileDate="2023-09-25, 09:37:12" FileAge="1695605832991" FileType="8" CompNumb="10" />
+      <File Name="Documentation/doxygen/pex.doxyfile" FileDate="2023-08-28, 16:08:14" FileAge="1693210094196" FileType="45637" CompNumb="10" />
+      <File Name="Generated_Code/PE_Const.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947547" FileType="45637" />
       <File Name="Documentation/doxygen/RoutingReport_component.txt" FileDate="2023-09-28, 16:17:06" FileAge="1695889026325" FileType="45637" CompNumb="10" />
-      <File Name="Generated_Code/WDog.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205395" FileType="45637" CompNumb="57" />
+      <File Name="Generated_Code/PE_Types.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947550" FileType="45637" />
+      <File Name="Generated_Code/WDog.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947557" FileType="45637" CompNumb="57" />
+      <File Name="Generated_Code/PE_Error.h" FileDate="2023-09-28, 16:49:07" FileAge="1695890947548" FileType="45637" />
       <File Name="Sources/main.c" FileDate="2023-09-28, 16:16:16" FileAge="1695888976060" FileType="128" />
-      <File Name="Generated_Code/PE_Error.h" FileDate="2023-09-28, 16:20:05" FileAge="1695889205380" FileType="45637" />
     </GeneratedByPE>
   </GeneratedFilesList>
-  <CodeGenReference>1</CodeGenReference>
+  <CodeGenReference>2</CodeGenReference>
 </CodeGenerationInfo>
