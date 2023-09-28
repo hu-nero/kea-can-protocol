@@ -7,7 +7,7 @@
 **     Version     : Component 01.112, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-09-06, 17:41, # CodeGen: 7
+**     Date/Time   : 2023-09-28, 16:20, # CodeGen: 0
 **     Abstract    :
 **         This component "CAN_LDD" implements a CAN serial channel.
 **     Settings    :
