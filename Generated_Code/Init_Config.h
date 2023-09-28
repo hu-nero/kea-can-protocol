@@ -8,7 +8,7 @@
 **     Repository  : Kinetis
 **     Datasheet   : KEA128RM, Rev. 22, Jun 2014
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-09-22, 10:26, # CodeGen: 0
+**     Date/Time   : 2023-09-28, 16:40, # CodeGen: 0
 **     Abstract    :
 **         This file collects Processor Expert components configuration 
 **         and interface files.
