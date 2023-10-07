@@ -6,20 +6,21 @@
  */
 #include "hal_can.h"
 #include "string.h"
-#include "CAN.h"
 #include "hal_systick.h"
 
 static CAN_TDeviceDataPtr halCanDevicePtr = NULL;
 static uint8_t canRxBuf[CAN_DRIVER_RX_NUM][CAN_DRIVER_MAX_DLC];
 static HAL_CAN_Rx_Struct gHalCanRxStruct;
+CAN_BAUD_Enum gHalCanBaudValue = CAN_BAUD_500;
 uint32_t gHalCanErrorCount = 0;
 
 //callback func
 TfpCanHalCallbackTx SpCAN_CallbackTx[eCanPort_Count] = {NULL};
 
 uint16_t
-hal_can_init(uint8_t PortId)
+hal_can_init(uint8_t PortId, CAN_PROTOCOL_CAN_BAUD_Enum Baud)
 {
+    CAN_BAUD_Enum canBaudValue = CAN_BAUD_500;
     if (PortId >= eCanPort_Count)
     {
         return false;
@@ -33,8 +34,32 @@ hal_can_init(uint8_t PortId)
         case eCanPort_0:
             {
                 //init can device
-                //baud rate = 500kbps,sample points = 75%
-                halCanDevicePtr = CAN_Init(NULL);
+                //sample points = 75%
+            	switch (Baud)
+            	{
+                    case CAN_PROTOCOL_CAN_BAUD_125:
+                        {
+                            gHalCanBaudValue = canBaudValue = CAN_BAUD_125;
+                        }
+                        break;
+                    case CAN_PROTOCOL_CAN_BAUD_250:
+                        {
+                            gHalCanBaudValue = canBaudValue = CAN_BAUD_250;
+                        }
+                        break;
+                    case CAN_PROTOCOL_CAN_BAUD_500:
+                        {
+                            gHalCanBaudValue = canBaudValue = CAN_BAUD_500;
+                        }
+                        break;
+                    case CAN_PROTOCOL_CAN_BAUD_1000:
+                        {
+                            gHalCanBaudValue = canBaudValue = CAN_BAUD_1000;
+                        }
+                        break;
+                    default:break;
+            	}
+                halCanDevicePtr = CAN_Init(NULL, canBaudValue);
                 if(NULL == halCanDevicePtr)
                     return 1;
             }
@@ -206,7 +231,7 @@ hal_can_error_callback(uint8_t PortId, HAL_CAN_ER_TYPE u8CanErrorType)
         case HAL_CAN_ER_BUSOFF:
             {
                 hal_can_deinit(PortId);
-                hal_can_init(PortId);
+                hal_can_init(PortId, gHalCanBaudValue);
             }
             break;
         default:break;

@@ -9,6 +9,7 @@
 #define HAL_CAN_HAL_CAN_H_
 
 #include "stdint.h"
+#include "CAN.h"
 #include "can_datatypes.h"
 #include "can_defines.h"
 #include "can_fifo.h"
@@ -38,8 +39,9 @@ typedef struct{
 } HAL_CAN_Rx_Struct;
 
 extern TfpCanHalCallbackTx SpCAN_CallbackTx[eCanPort_Count];
+extern CAN_BAUD_Enum gHalCanBaudValue;
 
-extern uint16_t hal_can_init(uint8_t PortId);
+extern uint16_t hal_can_init(uint8_t PortId, CAN_PROTOCOL_CAN_BAUD_Enum Baud);
 extern uint16_t hal_can_deinit(uint8_t PortId);
 extern TeErrorEnum hal_can_send(TeCanPort port, uint8_t mb, TsCanFrame* frame);
 
