@@ -53,6 +53,7 @@
 #include "CAN.h"
 #include "TaskTimer.h"
 #include "WDog.h"
+#include "FLASH.h"
 #include "Events.h"
 
 #ifdef __cplusplus
@@ -83,7 +84,7 @@ extern "C" {
 #define VECTOR_18         (tIsrFunc)&UnhandledInterrupt         /* 0x12 -    ivINT_Reserved18              unused by PE */
 #define VECTOR_19         (tIsrFunc)&UnhandledInterrupt         /* 0x13 -    ivINT_Reserved19              unused by PE */
 #define VECTOR_20         (tIsrFunc)&UnhandledInterrupt         /* 0x14 -    ivINT_Reserved20              unused by PE */
-#define VECTOR_21         (tIsrFunc)&UnhandledInterrupt         /* 0x15 -    ivINT_FTMRE                   unused by PE */
+#define VECTOR_21         (tIsrFunc)&FLASH_CommandCompleteInterrupt /* 0x15 64 ivINT_FTMRE                 used by PE */
 #define VECTOR_22         (tIsrFunc)&UnhandledInterrupt         /* 0x16 -    ivINT_LVD_LLW                 unused by PE */
 #define VECTOR_23         (tIsrFunc)&UnhandledInterrupt         /* 0x17 -    ivINT_IRQ                     unused by PE */
 #define VECTOR_24         (tIsrFunc)&UnhandledInterrupt         /* 0x18 -    ivINT_I2C0                    unused by PE */

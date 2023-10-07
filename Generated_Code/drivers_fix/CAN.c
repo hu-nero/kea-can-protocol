@@ -180,12 +180,13 @@ static const uint8_t RemapHwToRxBuffersIdx[1] = {0x00U}; /* Remapping receive Hw
 **         UserDataPtr     - Pointer to the user or
 **                           RTOS specific data. This pointer will be
 **                           passed as an event or callback parameter.
+**         Baud            - CAN baud
 **     @return
 **                         - Pointer to the dynamically allocated private
 **                           structure or NULL if there was an error.
 */
 /* ===================================================================*/
-LDD_TDeviceData* CAN_Init(LDD_TUserData *UserDataPtr)
+LDD_TDeviceData* CAN_Init(LDD_TUserData *UserDataPtr, CAN_BAUD_Enum Baud)
 {
   /* Allocate LDD device structure */
   CAN_TDeviceDataPtr DeviceDataPrv;
@@ -283,8 +284,34 @@ LDD_TDeviceData* CAN_Init(LDD_TUserData *UserDataPtr)
   MSCAN_CANIDAR6 = MSCAN_CANIDAR_BANK_2_AC(0xFF); /* Set the acceptance code - register MSCAN_CANIDAR6 */
   /* MSCAN_CANIDAR7: AC=0xFF */
   MSCAN_CANIDAR7 = MSCAN_CANIDAR_BANK_2_AC(0xFF); /* Set the acceptance code - register MSCAN_CANIDAR7 */
-  /* MSCAN_CANBTR0: SJW=0,BRP=3 */
-  MSCAN_CANBTR0 = (MSCAN_CANBTR0_SJW(0x00) | MSCAN_CANBTR0_BRP(0x03)); /* Set the timing register 0 */
+  switch (Baud)
+  {
+      case CAN_BAUD_125:
+          {
+              /* MSCAN_CANBTR0: SJW=0,BRP=0x0F */
+              MSCAN_CANBTR0 = (MSCAN_CANBTR0_SJW(0x00) | MSCAN_CANBTR0_BRP(0x0F)); /* Set the timing register 0 */
+          }
+          break;
+      case CAN_BAUD_250:
+          {
+              /* MSCAN_CANBTR0: SJW=0,BRP=7 */
+              MSCAN_CANBTR0 = (MSCAN_CANBTR0_SJW(0x00) | MSCAN_CANBTR0_BRP(0x07)); /* Set the timing register 0 */
+          }
+          break;
+      case CAN_BAUD_500:
+          {
+              /* MSCAN_CANBTR0: SJW=0,BRP=3 */
+              MSCAN_CANBTR0 = (MSCAN_CANBTR0_SJW(0x00) | MSCAN_CANBTR0_BRP(0x03)); /* Set the timing register 0 */
+          }
+          break;
+      case CAN_BAUD_1000:
+          {
+              /* MSCAN_CANBTR0: SJW=0,BRP=1 */
+              MSCAN_CANBTR0 = (MSCAN_CANBTR0_SJW(0x00) | MSCAN_CANBTR0_BRP(0x01)); /* Set the timing register 0 */
+          }
+          break;
+      default:break;
+  }
   /* MSCAN_CANBTR1: SAMP=0,TSEG2=1,TSEG1=6 */
   MSCAN_CANBTR1 = (MSCAN_CANBTR1_TSEG2(0x01) | MSCAN_CANBTR1_TSEG1(0x06)); /* Set the timing register 1 */
   DeviceDataPrv->TxBuffersPendingMask = 0x00U; /* Clear Tx request pending message buffer mask */

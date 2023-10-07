@@ -188,6 +188,28 @@ void TaskTimer_OnCounterRestart(LDD_TUserData *UserDataPtr)
 	hal_timer0_callback();
 }
 
+/*
+** ===================================================================
+**     Event       :  FLASH_OnOperationComplete (module Events)
+**
+**     Component   :  FLASH [FLASH_LDD]
+*/
+/*!
+**     @brief
+**         Called at the end of the whole write / erase operation. if
+**         the event is enabled. See SetEventMask() and GetEventMask()
+**         methods.
+**     @param
+**         UserDataPtr     - Pointer to the user or
+**                           RTOS specific data. This pointer is passed
+**                           as the parameter of Init method.
+*/
+/* ===================================================================*/
+void FLASH_OnOperationComplete(LDD_TUserData *UserDataPtr)
+{
+  /* Write your code here ... */
+}
+
 /* END Events */
 
 #ifdef __cplusplus

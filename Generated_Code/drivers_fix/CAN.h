@@ -158,6 +158,22 @@
 /*! Peripheral base address of a device allocated by the component. This constant can be used directly in PDD macros. */
 #define CAN_PRPH_BASE_ADDRESS  0x40024000U
   
+typedef enum
+{
+    CAN_BAUD_125 = 125000UL,
+    CAN_BAUD_250 = 250000UL,
+    CAN_BAUD_500 = 500000UL,
+    CAN_BAUD_1000 = 1000000UL,
+} CAN_BAUD_Enum;
+
+typedef enum
+{
+    CAN_PROTOCOL_CAN_BAUD_125 = 1,
+    CAN_PROTOCOL_CAN_BAUD_250 = 2,
+    CAN_PROTOCOL_CAN_BAUD_500 = 5,
+    CAN_PROTOCOL_CAN_BAUD_1000 = 10,
+} CAN_PROTOCOL_CAN_BAUD_Enum;
+
 typedef struct {
   MSCAN_MemMapPtr BaseAddr;            /* Device register memory map base address */
   uint8_t MaxDataLen;                  /* Max number of data to be sent in one frame */
@@ -194,12 +210,13 @@ typedef CAN_TDeviceData *CAN_TDeviceDataPtr; /* Pointer to the device data struc
 **         UserDataPtr     - Pointer to the user or
 **                           RTOS specific data. This pointer will be
 **                           passed as an event or callback parameter.
+**         Baud            - CAN baud
 **     @return
 **                         - Pointer to the dynamically allocated private
 **                           structure or NULL if there was an error.
 */
 /* ===================================================================*/
-LDD_TDeviceData* CAN_Init(LDD_TUserData *UserDataPtr);
+LDD_TDeviceData* CAN_Init(LDD_TUserData *UserDataPtr, CAN_BAUD_Enum Baud);
 
 /*
 ** ===================================================================
