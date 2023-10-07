@@ -21,8 +21,6 @@ static uint8_t gu8SwitchOutputCtrlIOState = 0;
 void
 can_protocol_task_init(void)
 {
-    //can init
-    hal_can_init(eCanPort_0);
     //service init
     di_service_input_io_init();
     switch_ctrl_service_output_io_init();
