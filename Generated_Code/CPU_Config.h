@@ -6,7 +6,7 @@
 **     Version     : Component 01.013, Driver 01.00, CPU db: 3.00.000
 **     Repository  : Kinetis
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-09-28, 16:49, # CodeGen: 1
+**     Date/Time   : 2023-10-09, 17:45, # CodeGen: 3
 **
 **     Copyright : 1997 - 2015 Freescale Semiconductor, Inc. 
 **     All Rights Reserved.
@@ -72,7 +72,7 @@ extern "C" {
 #define CPU_SET_OPERATION_MODE                             0x00U      
 #define CPU_ENABLE_INT                                     0x00U      
 #define CPU_DISABLE_INT                                    0x00U      
-#define CPU_SYSTEM_RESET                                   0x00U      
+#define CPU_SYSTEM_RESET                                   0x01U
 
 /* Events constants. */
 

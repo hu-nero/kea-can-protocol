@@ -445,13 +445,13 @@
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1185815988;ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1185815988.;ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.150643158;ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.2093882072">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1185815988;ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1185815988.;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.1930946389;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.143278914">
+		<scannerConfigBuildInfo instanceId="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1641891806;ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1641891806.;ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.1858482881;ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.1233720436">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511;ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.530481135;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.276656997">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1641891806;ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.1641891806.;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.389522718;ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.2033458482">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
 		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511;ilg.gnuarmeclipse.managedbuild.cross.config.elf.debug.2128762511.;ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.372763198;ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.1642652191">

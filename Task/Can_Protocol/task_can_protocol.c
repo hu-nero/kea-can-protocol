@@ -7,6 +7,7 @@
 #include "task_can_protocol.h"
 #include <string.h>
 #include "Hal.h"
+#include "board_init.h"
 #include "board_config.h"
 
 
@@ -21,7 +22,7 @@ static uint16_t can_protocol_task_single_ch_read(uint8_t Ch, uint32_t *Value);
 void
 can_protocol_task_init(void)
 {
-    gTsCanFrame.id = CAN_PROTOCOL_ID_RESPONSE;
+    gTsCanFrame.id = gBootInfo.u32CanResponseId;
     gTsCanFrame.dlc = 8;
     gTsCanFrame.is_can_fd = 0;
     gTsCanFrame.is_ext_id = 1;
@@ -48,75 +49,295 @@ can_protocol_task_init(void)
 uint16_t
 can_protocol_task(void)
 {
+    //(void)CAN_FIFO_Write(0, &gTsCanFrame);
+    static bool bIsCalibrateFlag = true;
+    static bool bCalibrateFlag = false;
+    static uint16_t u8CalibrateCount = 0;
+    uint16_t res = 0;
+    if (bCalibrateFlag)
+    {
+        if (u8CalibrateCount < 2000) //20s
+        {
+            u8CalibrateCount ++;
+        }
+        else
+        {
+            CPU_SystemReset();
+        }
+    }
+    else
+    {
+        if (u8CalibrateCount < 5) //50ms
+        {
+            u8CalibrateCount ++;
+        }
+        else
+        {
+            if (bIsCalibrateFlag == true)
+                bIsCalibrateFlag = false;
+        }
+    }
+
+
     //解析CAN报文
-    uint8_t res = 0;
     if ((gTsCanFramePtr = hal_can_rx_queue_de()) != NULL)
     {
         memset(gTsCanFrame.data, 0, 8);
-        //ID
-        switch (gTsCanFramePtr->id)
+        //calibration mode
+        if (bIsCalibrateFlag)
         {
-            case CAN_PROTOCOL_ID_REQUEST:
+            if (gTsCanFramePtr->id == CAN_CALIBRATE_ID_REQUEST)
+            {
+                if ((gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_CMD] == CAN_BALIBRATE_CMD_ENTER) &&
+                    (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR] == 0xAA) &&
+                    (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+1] == 0xBB) &&
+                    (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+2] == 0xCC) &&
+                    (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+3] == 0xDD) &&
+                    (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+4] == 0xEE) &&
+                    (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+5] == 0xFF))
                 {
-                    //CMD
+                    bCalibrateFlag = true;
+                }
+                if (bCalibrateFlag)
+                {
+                    //reset counter
+                    u8CalibrateCount = 0;
                     switch (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_CMD])
                     {
-                        case CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST:
+                        case CAN_BALIBRATE_CMD_EXIT:
                             {
-                                TimetickUnion timetickTmp;
-                                timetickTmp.u32TimeTick = hal_timer_get_time();
-                                //TODO:返回软件版本和开机时间
+                            	CPU_SystemReset();
+                            }
+                            break;
+                        case CAN_BALIBRATE_CMD_CAN_BAUD_SET:
+                            {
+                                SingleWordUnion singleWordTmp = {0};
+                                memcpy(singleWordTmp.u8Data, &gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR], sizeof(SingleWordUnion));
+                                switch (singleWordTmp.u16Data)
+                                {
+                                    case CAN_REAL_BAUD_125:
+                                        {
+                                            gBootInfo.u32CanBaudValue = CAN_BAUD_125;
+                                        }
+                                        break;
+                                    case CAN_REAL_BAUD_250:
+                                        {
+                                            gBootInfo.u32CanBaudValue = CAN_BAUD_250;
+                                        }
+                                        break;
+                                    case CAN_REAL_BAUD_500:
+                                        {
+                                            gBootInfo.u32CanBaudValue = CAN_BAUD_500;
+                                        }
+                                        break;
+                                    case CAN_REAL_BAUD_1000:
+                                        {
+                                            gBootInfo.u32CanBaudValue = CAN_BAUD_1000;
+                                        }
+                                        break;
+                                    default:
+                                        {
+                                            gBootInfo.u32CanBaudValue = CAN_BAUD_500;
+                                        }
+                                        break;
+                                }
+
+                                //write flash
+                                hal_flash_erase(HAL_DEV_FLASH0, CALI_BASE_ADDR);
+                                uint8_t len = sizeof(gBootInfo);
+                                uint32_t addr = CALI_BASE_ADDR;
+                                uint8_t *ptr = (uint8_t*)&gBootInfo;
+                                while (len)
+                                {
+                                    if (len >= FLASHOPERATEUINT)
+                                    {
+                                        len -= FLASHOPERATEUINT;
+                                        hal_flash_write(HAL_DEV_FLASH0, ptr, addr, FLASHOPERATEUINT);
+                                        ptr += FLASHOPERATEUINT;
+                                        addr += FLASHOPERATEUINT;
+                                    }
+                                    else
+                                    {
+                                        hal_flash_write(HAL_DEV_FLASH0, ptr, addr, len);
+                                        len = 0;
+                                    }
+                                }
+                                //send can msg
+                                gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_CAN_BAUD_SET;
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
-                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_VERSION_OFFSET] = SoftsVer[10];
-                                memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET], timetickTmp.u8Tick, sizeof(timetickTmp));
+                                memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_CALIBRATE_BAUD_SET_OFFSET], singleWordTmp.u8Data, sizeof(singleWordTmp));
                                 (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                             }
                             break;
-                        case CAN_PROTOCOL_CMD_ASSIGN_CTRL:
+                        case CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID:
                             {
-                                uint8_t u8Channal = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET];
-                                res = can_protocol_task_ch_assignctrls(gu8Channal, u8Channal);
-                                if (res == 0)
+                                DoubleWordUnion doubleWordTmp = {0};
+                                if (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_RECV_CMD_OFFSET] == BUSSINESS_COMMUNICATE_RECV_ID_QUERY)
                                 {
-                                    gu8Channal = u8Channal;
+                                    doubleWordTmp.u32Data = gBootInfo.u32CanResponseId;
+                                    //send can msg
+                                    gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = u8Channal;
+                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
-                                //都不选通
-                                else if (res == 4)
+                                else if (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_RECV_CMD_OFFSET] == BUSSINESS_COMMUNICATE_RECV_ID_SET)
                                 {
-                                    gu8Channal = 0xFF;
+                                    memcpy(doubleWordTmp.u8Data, &gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_RECV_ID_OFFSET], sizeof(doubleWordTmp));
+                                    gBootInfo.u32CanResponseId = doubleWordTmp.u32Data;
+
+                                    //write flash
+                                    hal_flash_erase(HAL_DEV_FLASH0, CALI_BASE_ADDR);
+                                    uint8_t len = sizeof(gBootInfo);
+                                    uint32_t addr = CALI_BASE_ADDR;
+                                    uint8_t *ptr = (uint8_t*)&gBootInfo;
+                                    while (len)
+                                    {
+                                        if (len >= FLASHOPERATEUINT)
+                                        {
+                                            len -= FLASHOPERATEUINT;
+                                            hal_flash_write(HAL_DEV_FLASH0, ptr, addr, FLASHOPERATEUINT);
+                                            ptr += FLASHOPERATEUINT;
+                                            addr += FLASHOPERATEUINT;
+                                        }
+                                        else
+                                        {
+                                            hal_flash_write(HAL_DEV_FLASH0, ptr, addr, len);
+                                            len = 0;
+                                        }
+                                    }
+                                    //send can msg
+                                    gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = 0xFF;
+                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
-                                    return 0;
                                 }
-                                //选通失败
-                                else if (res)
+                            }
+                            break;
+                        case CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID:
+                            {
+                                DoubleWordUnion doubleWordTmp = {0};
+                                if (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_SEND_CMD_OFFSET] == BUSSINESS_COMMUNICATE_SEND_ID_QUERY)
                                 {
+                                    doubleWordTmp.u32Data = gBootInfo.u32CanRequestId;
+                                    //send can msg
+                                    gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = gu8Channal;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
-                                    return 0;
+                                }
+                                else if (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_SEND_CMD_OFFSET] == BUSSINESS_COMMUNICATE_SEND_ID_SET)
+                                {
+                                    memcpy(doubleWordTmp.u8Data, &gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_SEND_ID_OFFSET], sizeof(doubleWordTmp));
+                                    gBootInfo.u32CanRequestId = doubleWordTmp.u32Data;
+
+                                    //write flash
+                                    hal_flash_erase(HAL_DEV_FLASH0, CALI_BASE_ADDR);
+                                    uint8_t len = sizeof(gBootInfo);
+                                    uint32_t addr = CALI_BASE_ADDR;
+                                    uint8_t *ptr = (uint8_t*)&gBootInfo;
+                                    while (len)
+                                    {
+                                        if (len >= FLASHOPERATEUINT)
+                                        {
+                                            len -= FLASHOPERATEUINT;
+                                            hal_flash_write(HAL_DEV_FLASH0, ptr, addr, FLASHOPERATEUINT);
+                                            ptr += FLASHOPERATEUINT;
+                                            addr += FLASHOPERATEUINT;
+                                        }
+                                        else
+                                        {
+                                            hal_flash_write(HAL_DEV_FLASH0, ptr, addr, len);
+                                            len = 0;
+                                        }
+                                    }
+                                    //send can msg
+                                    gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                    memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
+                                    (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
                             }
                             break;
                         default:break;
                     }
                 }
-                break;
-            default:break;
+            }
+        }
+        else
+        {
+            //normal mode
+            if (gTsCanFramePtr->id == gBootInfo.u32CanRequestId)
+            {
+                gTsCanFrame.id = gBootInfo.u32CanResponseId;
+                //CMD
+                switch (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_CMD])
+                {
+                    case CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST:
+                        {
+                            TimetickUnion timetickTmp;
+                            timetickTmp.u32TimeTick = hal_timer_get_time();
+                            //TODO:返回软件版本和开机时间
+                            gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                            gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_SYSTEM_INFO_REQUEST;
+                            gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                            gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_VERSION_OFFSET] = SoftsVer[10];
+                            memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET], timetickTmp.u8Tick, sizeof(timetickTmp));
+                            (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                        }
+                        break;
+                    case CAN_PROTOCOL_CMD_ASSIGN_CTRL:
+                        {
+                            uint8_t u8Channal = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET];
+                            res = can_protocol_task_ch_assignctrls(gu8Channal, u8Channal);
+                            if (res == 0)
+                            {
+                                gu8Channal = u8Channal;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = u8Channal;
+                                (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                            }
+                            //都不选通
+                            else if (res == 4)
+                            {
+                                gu8Channal = 0xFF;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = 0xFF;
+                                (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                return 0;
+                            }
+                            //选通失败
+                            else if (res)
+                            {
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_PROTOCOL_CMD_ASSIGN_CTRL;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_ERR;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET] = gu8Channal;
+                                (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
+                                return 0;
+                            }
+                        }
+                        break;
+                    default:break;
+                }
+            }
         }
     }
+    return res;
 }
 
 /**

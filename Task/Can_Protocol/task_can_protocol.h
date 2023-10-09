@@ -9,6 +9,12 @@
 #define TASK_CAN_PROTOCOL_TASK_CAN_PROTOCOL_H_
 #include <stdint.h>
 
+#define CAN_CALIBRATE_BAUD_SET_OFFSET                                    0u
+#define CAN_CALIBRATE_BUSSINESS_COMMUNICATE_RECV_CMD_OFFSET              0u
+#define CAN_CALIBRATE_BUSSINESS_COMMUNICATE_RECV_ID_OFFSET               1u
+#define CAN_CALIBRATE_BUSSINESS_COMMUNICATE_SEND_CMD_OFFSET              0u
+#define CAN_CALIBRATE_BUSSINESS_COMMUNICATE_SEND_ID_OFFSET               1u
+
 #define CAN_PROTOCOL_SYSINFO_VERSION_OFFSET     0
 #define CAN_PROTOCOL_SYSINFO_STARTTIME_OFFSET     2
 #define CAN_PROTOCOL_ASSIGNCTRL_CH_OFFSET     0
@@ -66,11 +72,35 @@
 #define DUT_CH22_PIN                             1u
 #define DUT_CH23_PORT                            HAL_GPIOB_PTG
 #define DUT_CH23_PIN                             2u
+
 typedef enum
 {
-    CAN_PROTOCOL_ID_REQUEST = 0x1C00B001,
-    CAN_PROTOCOL_ID_RESPONSE = 0x1C00B002
-} CAN_PROTOCOL_ID_Enum;
+    CAN_CALIBRATE_ID_REQUEST = 0x1234ABCD,
+    CAN_CALIBRATE_ID_RESPONSE = 0x1234EEEE
+} CAN_CALIBRATE_ID_Enum;
+
+
+enum
+{
+    BUSSINESS_COMMUNICATE_RECV_ID_QUERY = 0,
+    BUSSINESS_COMMUNICATE_RECV_ID_SET = 0xAC
+};
+
+enum
+{
+    BUSSINESS_COMMUNICATE_SEND_ID_QUERY = 0,
+    BUSSINESS_COMMUNICATE_SEND_ID_SET = 0xAC
+};
+
+
+typedef enum
+{
+    CAN_BALIBRATE_CMD_ENTER = 0,
+    CAN_BALIBRATE_CMD_EXIT = 99,
+    CAN_BALIBRATE_CMD_CAN_BAUD_SET = 3,
+    CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID = 5,
+    CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID = 7
+} CAN_CALIBRATE_CMD_enum;
 
 typedef enum
 {
@@ -106,6 +136,18 @@ typedef union
     uint32_t u32TimeTick;
     uint8_t  u8Tick[4];
 } TimetickUnion;
+
+typedef union
+{
+    uint16_t u16Data;
+    uint8_t  u8Data[2];
+} SingleWordUnion;
+
+typedef union
+{
+    uint32_t u32Data;
+    uint8_t  u8Data[4];
+} DoubleWordUnion;
 
 extern void can_protocol_task_init(void);
 extern uint16_t can_protocol_task(void);

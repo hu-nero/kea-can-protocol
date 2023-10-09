@@ -38,7 +38,8 @@ __stack_size = 0x0100;                 /* required amount of stack */
 
 MEMORY {
   m_interrupts (RX) : ORIGIN = 0x00003800, LENGTH = 0x000000C0
-  m_text      (RX) : ORIGIN = 0x00003C10, LENGTH = 0x0000C3F0
+  m_text      (RX) : ORIGIN = 0x00003C10, LENGTH = 0x0000C1F0
+  calibrateinfo   (RX)  : ORIGIN = 0x0000FE00, LENGTH = 0x00000200
   m_data      (RW) : ORIGIN = 0x1FFFF800, LENGTH = 0x00002000
   m_cfmprotrom  (RX) : ORIGIN = 0x00003C00, LENGTH = 0x00000010
 }
@@ -144,6 +145,16 @@ SECTIONS
 
 	___ROM_AT = .;
   } > m_text
+
+
+  __etext = .;    /* define a global symbol at end of code */
+  __DATA_ROM = .; /* Symbol is used by startup for data initialization */
+    .__calibrateinfo (0x0000FE00):
+    {
+    	KEEP(*(.__calibrateinfo))
+    } > calibrateinfo
+    
+
   /* reserve MTB memory at the beginning of m_data */
   .mtb : /* MTB buffer address as defined by the hardware */
   {

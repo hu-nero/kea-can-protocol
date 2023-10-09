@@ -18,9 +18,8 @@ uint32_t gHalCanErrorCount = 0;
 TfpCanHalCallbackTx SpCAN_CallbackTx[eCanPort_Count] = {NULL};
 
 uint16_t
-hal_can_init(uint8_t PortId, CAN_PROTOCOL_CAN_BAUD_Enum Baud)
+hal_can_init(uint8_t PortId, CAN_BAUD_Enum Baud)
 {
-    CAN_BAUD_Enum canBaudValue = CAN_BAUD_500;
     if (PortId >= eCanPort_Count)
     {
         return false;
@@ -37,29 +36,19 @@ hal_can_init(uint8_t PortId, CAN_PROTOCOL_CAN_BAUD_Enum Baud)
                 //sample points = 75%
             	switch (Baud)
             	{
-                    case CAN_PROTOCOL_CAN_BAUD_125:
-                        {
-                            gHalCanBaudValue = canBaudValue = CAN_BAUD_125;
-                        }
+                    case CAN_BAUD_125:
+                    case CAN_BAUD_250:
+                    case CAN_BAUD_500:
+                    case CAN_BAUD_1000:
+                        gHalCanBaudValue = Baud;
                         break;
-                    case CAN_PROTOCOL_CAN_BAUD_250:
-                        {
-                            gHalCanBaudValue = canBaudValue = CAN_BAUD_250;
-                        }
-                        break;
-                    case CAN_PROTOCOL_CAN_BAUD_500:
-                        {
-                            gHalCanBaudValue = canBaudValue = CAN_BAUD_500;
-                        }
-                        break;
-                    case CAN_PROTOCOL_CAN_BAUD_1000:
-                        {
-                            gHalCanBaudValue = canBaudValue = CAN_BAUD_1000;
-                        }
-                        break;
-                    default:break;
+                    default:
+                    	{
+                            gHalCanBaudValue = CAN_BAUD_500;
+                    	}
+                		break;
             	}
-                halCanDevicePtr = CAN_Init(NULL, canBaudValue);
+                halCanDevicePtr = CAN_Init(NULL, gHalCanBaudValue);
                 if(NULL == halCanDevicePtr)
                     return 1;
             }
