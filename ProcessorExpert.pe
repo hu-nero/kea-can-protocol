@@ -3,7 +3,7 @@
   <Header>
     <Name>HC03_Project</Name>
     <SavedBy>xinlei.hu</SavedBy>
-    <ModificationStamp>118</ModificationStamp>
+    <ModificationStamp>122</ModificationStamp>
     <Date>2023-01-30</Date>
     <IDE>Eclipse IDE</IDE>
     <PEversion>1.12.2.RT7_b1550-0615</PEversion>
@@ -29,7 +29,7 @@
     <UseExistingModules>true</UseExistingModules>
     <RenamePeripheries>false</RenamePeripheries>
     <Autodependency>true</Autodependency>
-    <ProjectCompNumb>67</ProjectCompNumb>
+    <ProjectCompNumb>68</ProjectCompNumb>
     <DelUnusedPreviouslyGenFiles>true</DelUnusedPreviouslyGenFiles>
     <GeneratedCodeFrozen>false</GeneratedCodeFrozen>
     <AssignInitComponentNameToPrph>true</AssignInitComponentNameToPrph>
