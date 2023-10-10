@@ -9,6 +9,7 @@
 #define HAL_HAL_H_
 
 #include "WDog/hal_wdog.h"
+#include "Flash/hal_flash.h"
 #include "Crc/CRC15.h"
 #include "Can/hal_can.h"
 #include "SysTick/hal_systick.h"

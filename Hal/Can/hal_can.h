@@ -41,7 +41,7 @@ typedef struct{
 extern TfpCanHalCallbackTx SpCAN_CallbackTx[eCanPort_Count];
 extern CAN_BAUD_Enum gHalCanBaudValue;
 
-extern uint16_t hal_can_init(uint8_t PortId, CAN_PROTOCOL_CAN_BAUD_Enum Baud);
+extern uint16_t hal_can_init(uint8_t PortId, CAN_BAUD_Enum Baud);
 extern uint16_t hal_can_deinit(uint8_t PortId);
 extern TeErrorEnum hal_can_send(TeCanPort port, uint8_t mb, TsCanFrame* frame);
 
