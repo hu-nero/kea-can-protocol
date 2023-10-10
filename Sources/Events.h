@@ -37,7 +37,6 @@
 #include "CAN.h"
 #include "TaskTimer.h"
 #include "WDog.h"
-#include "FLASH.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -251,13 +250,6 @@ void PIT0_OnCounterRestart(LDD_TUserData *UserDataPtr);
 /* ===================================================================*/
 void TaskTimer_OnCounterRestart(LDD_TUserData *UserDataPtr);
 
-void FLASH_OnOperationComplete(LDD_TUserData *UserDataPtr);
-/*
-** ===================================================================
-**     Event       :  FLASH_OnOperationComplete (module Events)
-**
-**     Component   :  FLASH [FLASH_LDD]
-*/
 /*!
 **     @brief
 **         Called at the end of the whole write / erase operation. if

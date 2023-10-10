@@ -34,7 +34,6 @@
 #include "CAN.h"
 #include "TaskTimer.h"
 #include "WDog.h"
-#include "FLASH.h"
 #include "PE_Types.h"
 #include "PE_Error.h"
 #include "PE_Const.h"

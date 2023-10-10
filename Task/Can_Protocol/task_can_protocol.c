@@ -88,7 +88,7 @@ can_protocol_task(void)
         {
             if (gTsCanFramePtr->id == CAN_CALIBRATE_ID_REQUEST)
             {
-                if ((gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_CMD] == CAN_BALIBRATE_CMD_ENTER) &&
+                if ((gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_CMD] == CAN_CALIBRATE_CMD_ENTER) &&
                     (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR] == 0xAA) &&
                     (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+1] == 0xBB) &&
                     (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+2] == 0xCC) &&
@@ -104,12 +104,12 @@ can_protocol_task(void)
                     u8CalibrateCount = 0;
                     switch (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_CMD])
                     {
-                        case CAN_BALIBRATE_CMD_EXIT:
+                        case CAN_CALIBRATE_CMD_EXIT:
                             {
                             	CPU_SystemReset();
                             }
                             break;
-                        case CAN_BALIBRATE_CMD_CAN_BAUD_SET:
+                        case CAN_CALIBRATE_CMD_CAN_BAUD_SET:
                             {
                                 SingleWordUnion singleWordTmp = {0};
                                 memcpy(singleWordTmp.u8Data, &gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR], sizeof(SingleWordUnion));
@@ -165,13 +165,13 @@ can_protocol_task(void)
                                 //send can msg
                                 gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_CAN_BAUD_SET;
+                                gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_CALIBRATE_CMD_CAN_BAUD_SET;
                                 gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                 memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR+CAN_CALIBRATE_BAUD_SET_OFFSET], singleWordTmp.u8Data, sizeof(singleWordTmp));
                                 (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                             }
                             break;
-                        case CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID:
+                        case CAN_CALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID:
                             {
                                 DoubleWordUnion doubleWordTmp = {0};
                                 if (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_RECV_CMD_OFFSET] == BUSSINESS_COMMUNICATE_RECV_ID_QUERY)
@@ -180,7 +180,7 @@ can_protocol_task(void)
                                     //send can msg
                                     gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_CALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
@@ -213,14 +213,14 @@ can_protocol_task(void)
                                     //send can msg
                                     gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_CALIBRATE_CMD_BUSINESS_COMMUNICATE_RECV_ID;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
                                 }
                             }
                             break;
-                        case CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID:
+                        case CAN_CALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID:
                             {
                                 DoubleWordUnion doubleWordTmp = {0};
                                 if (gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_PARAMETR+CAN_CALIBRATE_BUSSINESS_COMMUNICATE_SEND_CMD_OFFSET] == BUSSINESS_COMMUNICATE_SEND_ID_QUERY)
@@ -229,7 +229,7 @@ can_protocol_task(void)
                                     //send can msg
                                     gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_CALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);
@@ -262,7 +262,7 @@ can_protocol_task(void)
                                     //send can msg
                                     gTsCanFrame.id = CAN_CALIBRATE_ID_RESPONSE;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_ROLL_COUNTER] = gTsCanFramePtr->data[CAN_PROTOCOL_REQ_DATA_ROLL_COUNTER];
-                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_BALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID;
+                                    gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_CMD] = CAN_CALIBRATE_CMD_BUSINESS_COMMUNICATE_SEND_ID;
                                     gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_RESULTS] = CAN_PROTOCOL_RESP_RESULTS_OK;
                                     memcpy(&gTsCanFrame.data[CAN_PROTOCOL_RESP_DATA_PARAMETR], doubleWordTmp.u8Data, sizeof(doubleWordTmp));
                                     (void)CAN_FIFO_Write(eCanPort_0, &gTsCanFrame);

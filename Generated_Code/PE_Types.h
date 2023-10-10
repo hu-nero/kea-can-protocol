@@ -6,7 +6,7 @@
 **     Component   : PE_Types
 **     Version     : Driver 01.01
 **     Compiler    : GNU C Compiler
-**     Date/Time   : 2023-10-07, 10:35, # CodeGen: 2
+**     Date/Time   : 2023-10-10, 10:41, # CodeGen: 3
 **     Abstract    :
 **         PE_Types.h - contains definitions of basic types,
 **         register access macros and hardware specific macros
@@ -207,7 +207,6 @@ typedef unsigned long int       uint32;
 #define PE_LDD_COMPONENT_CAN_ID                  0x00U
 #define PE_LDD_COMPONENT_TaskTimer_ID            0x01U
 #define PE_LDD_COMPONENT_WDog_ID                 0x02U
-#define PE_LDD_COMPONENT_FLASH_ID                0x03U
 
 /*
 ** ===================================================================
