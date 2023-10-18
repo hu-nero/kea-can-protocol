@@ -1,0 +1,4 @@
+berif:完成dut测试
+version:V1.00
+pwd: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
+
