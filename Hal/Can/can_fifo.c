@@ -294,7 +294,7 @@ can_tx_result CAN_FIFO_Write(TeCanPort port, const TsCanFrame* frame)
         }
 
         // The port isn't available, so use the FIFO buffer instead.
-        else if ((SbTxPortAvailable[port] == false) || u8RecordFlag)
+        if ((SbTxPortAvailable[port] == false) || u8RecordFlag)
         {
             EnterCritical();
             fifo_res = Write_Buffer(&temp_frame, SsCAN_TxBuffer[port],
